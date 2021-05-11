@@ -2,11 +2,9 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY graphmarket ./
+COPY . .
 
-WORKDIR /app/graphmarket
-
-RUN npm ci
+RUN npm install
 
 RUN npm run build
 
