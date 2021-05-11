@@ -28,7 +28,7 @@
     "build": "npx ttsc --project tsconfig.json",
     "lint": "npx eslint --fix \"{services,libs,scripts}/**/*.{ts,js}\"",
     "format": "npx prettier --write \"{services,libs,scripts}/**/*.{ts,js}\"",
-    "gen:graphql": "npx cross-env NODE_ENV=development ts-node scripts/gen-graphql",
+    "gen:graphql": "npx cross-env NODE_ENV=development ts-node -r tsconfig-paths/register scripts/gen-graphql",
     "start:dev": "npx cross-env NODE_ENV=development ts-node-dev --prefer-ts true --no-notify --quiet --exit-child -r tsconfig-paths/register --transpile-only",
     "start:dev:gateway": "npm run start:dev -- services/gateway/bootstrap.ts | npx pino-pretty",
     "start:dev:service:products": "npm run start:dev -- services/service-products/bootstrap.ts | npx pino-pretty"
