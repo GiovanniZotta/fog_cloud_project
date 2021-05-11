@@ -14,7 +14,8 @@ WORKDIR /app
 # Files
 COPY package.json package-lock.json tsconfig.json ./
 # Directories
-COPY services libs ./
+COPY services ./services
+COPY libs ./libs
 
 # Install dev and prod dependencies
 RUN npm install
