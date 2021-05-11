@@ -1,12 +1,30 @@
-FROM node:alpine
+# syntax=docker/dockerfile:1
 
+# --- IMAGE
+FROM node:14-alpine
+
+# --- ENVs
+# Node port
+ENV PORT=80
+
+# Set working directory
 WORKDIR /app
 
-COPY . .
+# --- COPY
+# Files
+COPY package.json package-lock.json tsconfig.json ./
+# Directories
+COPY services libs ./
 
+# Install dev and prod dependencies
 RUN npm install
 
+# Build
 RUN npm run build
 
-CMD ["npm", "run", "start:prod:gateway"]
+# Remove dev dependencies
+RUN npm prune --production
+
+# --- BOOTSTRAP
 EXPOSE 80
+CMD ["npm", "run", "start:prod:gateway"]
