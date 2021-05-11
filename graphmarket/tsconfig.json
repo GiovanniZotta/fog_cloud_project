@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "lib": ["es2018", "esnext.asynciterable"],
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "baseUrl": ".",
+    "outDir": "build",
+    "removeComments": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "typeRoots": ["node_modules/@types"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@services/*": ["services/*"],
+      "@libs/*": ["libs/*"],
+      "@scripts/*": ["scripts/*"]
+    }
+  },
+  "include": [
+    "services/**/*",
+    "libs/**/*"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "build/**/*"
+  ],
+  "plugins": [
+    {
+      "transform": "typescript-transform-paths"
+    },
+    {
+      "transform": "typescript-transform-paths",
+      "afterDeclarations": true
+    }
+  ]
+}

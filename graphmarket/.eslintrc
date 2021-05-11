@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es2020": true
+  },
+  "plugins": [
+    "import",
+    "prettier",
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
+  ],
+  "extends": [
+    "airbnb-typescript/base",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": [
+      "tsconfig.json",
+      "scripts/tsconfig.json"
+    ],
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "tsdoc/syntax": "warn",
+    "import/no-default-export": "error",
+    "import/prefer-default-export": "off",
+    "no-restricted-syntax": [
+      "off",
+      "regeneration-runtime"
+    ]
+  }
+}

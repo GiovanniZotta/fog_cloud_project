@@ -1,0 +1,78 @@
+{
+  "name": "graphmarket",
+  "version": "0.0.1",
+  "description": "Graph Market",
+  "private": true,
+  "homepage": "https://github.com/GiovanniZotta/fog_cloud_project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GiovanniZotta/fog_cloud_project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GiovanniZotta/fog_cloud_project/issues"
+  },
+  "author": {
+    "name": "Carlo Corradini",
+    "email": "carlo.ita98@gmail.com",
+    "url": "https://github.com/carlocorradini"
+  },
+  "contributors": [
+    {
+      "name": "Giovanni Zotta",
+      "email": "giovanni.zotta@studenti.unitn.it",
+      "url": "https://github.com/GiovanniZotta"
+    }
+  ],
+  "scripts": {
+    "clean": "npx rimraf build .generated",
+    "build": "npx ttsc --project tsconfig.json",
+    "lint": "npx eslint --fix \"{services,libs,scripts}/**/*.{ts,js}\"",
+    "format": "npx prettier --write \"{services,libs,scripts}/**/*.{ts,js}\"",
+    "gen:graphql": "npx cross-env NODE_ENV=development ts-node scripts/gen-graphql",
+    "start:dev:gateway": "npx cross-env NODE_ENV=development ts-node-dev --prefer-ts true --no-notify --quiet --exit-child -r tsconfig-paths/register --transpile-only services/gateway/bootstrap.ts",
+    "start:dev:service:products": "npx cross-env NODE_ENV=development ts-node-dev --prefer-ts true --no-notify --quiet --exit-child -r tsconfig-paths/register --transpile-only services/products/bootstrap.ts"
+  },
+  "devDependencies": {
+    "@graphql-tools/utils": "^7.7.3",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.39",
+    "@types/shelljs": "^0.8.8",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "chalk": "^4.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-tsdoc": "^0.2.11",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "shelljs": "^0.8.4",
+    "ts-loader": "^8.1.0",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.2.4",
+    "typescript-transform-paths": "^2.2.3"
+  },
+  "dependencies": {
+    "@apollo/federation": "^0.23.0",
+    "@apollo/gateway": "^0.26.1",
+    "apollo-graphql": "^0.6.1",
+    "apollo-server-express": "^2.23.0",
+    "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.1",
+    "dotenv": "^8.2.0",
+    "envalid": "^7.1.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "graphql-scalars": "^1.9.0",
+    "graphql-tag": "^2.11.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.32"
+  }
+}
