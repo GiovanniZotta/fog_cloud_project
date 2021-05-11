@@ -60,7 +60,7 @@ export class EnvUtil {
   /**
    * Loads environment variables from a file.
    * If no 'filePath' is provided it will try to loads the file based on the current environment:
-   * '.env' in development.
+   * '.env.dev' in development.
    * '.env.prod' in production.
    * '.env.test' in test.
    *
@@ -72,7 +72,7 @@ export class EnvUtil {
     if (!filePath) {
       switch (EnvUtil.getCurrentEnv()) {
         case EnvUtil.ENV_DEVELOPMENT:
-          dotEnvFile = '.env';
+          dotEnvFile = '.env.dev';
           break;
         case EnvUtil.ENV_PRODUCTION:
           dotEnvFile = '.env.prod';
