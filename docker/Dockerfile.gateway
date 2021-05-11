@@ -1,0 +1,14 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY graphmarket ./
+
+WORKDIR /app/graphmarket
+
+RUN npm ci
+
+RUN npm run build
+
+CMD ["npm", "run", "start:prod:gateway"]
+EXPOSE 80
