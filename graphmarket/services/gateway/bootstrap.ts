@@ -19,7 +19,7 @@ const server = new ApolloServer({
   uploads: false,
   subscriptions: false,
   playground: config.graphql.playground,
-  introspection: config.graphql.playground,
+  introspection: false,
 });
 
 // Bootstrap
