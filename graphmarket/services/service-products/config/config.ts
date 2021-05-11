@@ -9,6 +9,7 @@ export const config = {
   },
   graphql: {
     path: env.GRAPHQL_PATH,
+    playground: env.DEBUG,
   },
   database: {
     url: env.DATABASE_URL,

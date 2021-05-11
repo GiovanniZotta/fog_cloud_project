@@ -1,19 +1,22 @@
 import 'reflect-metadata';
-import { promisify } from 'util';
 import { createConnection } from 'typeorm';
 import { buildGraphQLService } from '@libs/helpers';
+import { entitiesList } from '@libs/entities';
 import { schema } from './graphql';
 import { config } from './config';
 import { logger } from './logger';
 
-// Build GraphQL service
-const app = buildGraphQLService({
-  schema,
-  path: config.graphql.path,
-});
-
 // Bootstrap
 async function bootstrap() {
+  // Build GraphQL service
+  const service = await buildGraphQLService({
+    schema,
+    path: config.graphql.path,
+    loggerLevel: config.logger.level,
+    playground: config.graphql.playground,
+  });
+  logger.info('Service built');
+
   // Database
   await createConnection({
     type: 'postgres',
@@ -21,18 +24,17 @@ async function bootstrap() {
     ssl: config.database.ssl,
     synchronize: config.database.synchronize,
     logging: config.database.logging,
+    entities: entitiesList,
   });
   logger.info('Database connected');
 
-  // FIXME
-  // @ts-ignore
-  await promisify(app.listen)(config.node.port);
-  logger.info(`Server listening on port ${config.node.port}`);
+  // Start service
+  await service.listen(config.node.port);
 }
 
 bootstrap()
   .then(() => {
-    logger.info('Bootstrap success');
+    logger.info('Bootstrap successful');
   })
   .catch((error) => {
     logger.info(`Bootstrap error: ${error}`);

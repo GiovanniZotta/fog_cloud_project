@@ -1,40 +1,40 @@
 import 'reflect-metadata';
-import { promisify } from 'util';
-import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import fastify from 'fastify';
+import { ApolloServer } from 'apollo-server-fastify';
 import { ApolloGateway } from '@apollo/gateway';
 import { config } from './config';
 import { logger } from './logger';
 
-// Express
-const app = express();
-app.enable('trust proxy');
+// Fastify
+const gateway = fastify({ logger: { level: config.logger.level } });
 
 // Apollo Gateway
-const gateway = new ApolloGateway({
+const apolloGateway = new ApolloGateway({
   serviceList: [{ name: config.services.products.name, url: config.services.products.url }],
 });
 
 // Apollo Server
 const server = new ApolloServer({
-  gateway,
+  gateway: apolloGateway,
   uploads: false,
   subscriptions: false,
-  playground: true,
+  playground: config.graphql.playground,
+  introspection: config.graphql.playground,
 });
-server.applyMiddleware({ app, path: config.graphql.path });
 
 // Bootstrap
 async function bootstrap() {
-  // FIXME
-  // @ts-ignore
-  await promisify(app.listen)(config.node.port);
-  logger.info(`Server listening on port ${config.node.port}`);
+  await server.start();
+  gateway.register(server.createHandler({ path: config.graphql.path }));
+  logger.info('Gateway built');
+
+  // Start gateway
+  await gateway.listen(config.node.port);
 }
 
 bootstrap()
   .then(() => {
-    logger.info('Bootstrap success');
+    logger.info('Bootstrap successful');
   })
   .catch((error) => {
     logger.info(`Bootstrap error: ${error}`);

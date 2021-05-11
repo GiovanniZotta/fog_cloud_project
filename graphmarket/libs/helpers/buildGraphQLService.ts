@@ -1,5 +1,5 @@
-import express, { Express } from 'express';
-import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
+import fastify from 'fastify';
+import { ApolloServer, Config } from 'apollo-server-fastify';
 import { RequiredSome } from '@libs/types';
 
 /**
@@ -8,15 +8,21 @@ import { RequiredSome } from '@libs/types';
  * @param config - Service configuration
  * @returns Service instance
  */
-export function buildGraphQLService(
+export async function buildGraphQLService(
   config: RequiredSome<
-    Omit<ApolloServerExpressConfig, 'uploads' | 'subscriptions' | 'context'> & { path?: string },
+    Omit<
+      Config,
+      'uploads' | 'subscriptions' | 'context' | 'logger' | 'playground' | 'introspection'
+    >,
     'schema'
-  >,
-): Express {
-  // Express
-  const app = express();
-  app.enable('trust proxy');
+  > & {
+    path?: string;
+    playground?: boolean;
+    loggerLevel?: string;
+  },
+) {
+  // Fastify
+  const app = fastify({ logger: { level: config.loggerLevel } });
 
   // Apollo Server
   const server = new ApolloServer({
@@ -24,14 +30,12 @@ export function buildGraphQLService(
     schema: config.schema,
     uploads: false,
     subscriptions: false,
-    context: ({ req }) => ({
-      user:
-        req.headers.user && !Array.isArray(req.headers.user)
-          ? JSON.parse(req.headers.user)
-          : undefined,
-    }),
+    playground: config.playground,
+    introspection: config.playground,
   });
-  server.applyMiddleware({ app, path: config.path });
+
+  await server.start();
+  app.register(server.createHandler({ path: config.path }));
 
   return app;
 }
