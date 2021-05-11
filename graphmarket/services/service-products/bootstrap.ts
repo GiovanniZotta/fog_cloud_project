@@ -1,9 +1,10 @@
 import 'reflect-metadata';
+import { promisify } from 'util';
 import { createConnection } from 'typeorm';
 import { buildGraphQLService } from '@libs/helpers';
-import { logger, configure as configLogger } from '@libs/logger';
 import { schema } from './graphql';
 import { config } from './config';
+import { logger } from './logger';
 
 // Build GraphQL service
 const app = buildGraphQLService({
@@ -13,9 +14,6 @@ const app = buildGraphQLService({
 
 // Bootstrap
 async function bootstrap() {
-  // Logger
-  configLogger({ name: config.name, level: config.logger.level });
-
   // Database
   await createConnection({
     type: 'postgres',

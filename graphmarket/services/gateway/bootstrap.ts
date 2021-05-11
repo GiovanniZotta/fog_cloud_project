@@ -3,8 +3,8 @@ import { promisify } from 'util';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloGateway } from '@apollo/gateway';
-import { logger, configure as configLogger } from '@libs/logger';
 import { config } from './config';
+import { logger } from './logger';
 
 // Express
 const app = express();
@@ -26,9 +26,6 @@ server.applyMiddleware({ app, path: config.graphql.path });
 
 // Bootstrap
 async function bootstrap() {
-  // Logger
-  configLogger({ name: config.name, level: config.logger.level });
-
   // FIXME
   // @ts-ignore
   await promisify(app.listen)(config.node.port);
