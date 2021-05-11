@@ -1,7 +1,6 @@
 import express, { Express } from 'express';
 import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
-
-type RequiredSome<T, TRequired extends keyof T> = T & Required<Pick<T, TRequired>>;
+import { RequiredSome } from '@libs/types';
 
 /**
  *  Build a GraphQL service instance.

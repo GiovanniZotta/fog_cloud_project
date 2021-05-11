@@ -1,6 +1,8 @@
 import { env } from './env';
 
 export const config = {
+  name: 'service-products',
+  debug: env.DEBUG,
   node: {
     env: env.NODE_ENV,
     port: env.PORT,
@@ -12,6 +14,9 @@ export const config = {
     url: env.DATABASE_URL,
     ssl: env.DATABASE_SSL,
     synchronize: env.DATABASE_SYNCHRONIZE,
-    logging: env.DATABASE_LOGGING,
+    logging: env.DEBUG,
+  },
+  logger: {
+    level: env.DEBUG ? 'debug' : 'info',
   },
 };

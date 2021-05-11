@@ -3,6 +3,7 @@ import { promisify } from 'util';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloGateway } from '@apollo/gateway';
+import { logger, configure as configLogger } from '@libs/logger';
 import { config } from './config';
 
 // Express
@@ -25,16 +26,20 @@ server.applyMiddleware({ app, path: config.graphql.path });
 
 // Bootstrap
 async function bootstrap() {
+  // Logger
+  configLogger({ name: config.name, level: config.logger.level });
+
   // FIXME
   // @ts-ignore
   await promisify(app.listen)(config.node.port);
+  logger.info(`Server listening on port ${config.node.port}`);
 }
 
 bootstrap()
   .then(() => {
-    // TODO
+    logger.info('Bootstrap success');
   })
-  .catch(() => {
-    // TODO
+  .catch((error) => {
+    logger.info(`Bootstrap error: ${error}`);
     process.exit(1);
   });
