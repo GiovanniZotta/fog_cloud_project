@@ -3,10 +3,12 @@ import fs from 'fs';
 import shell from 'shelljs';
 import { GraphQLSchema, lexicographicSortSchema } from 'graphql';
 import { printSchemaWithDirectives } from '@graphql-tools/utils';
-import { echoInfo, echoSuccess } from '@scripts/__utils';
-// SERVICES SCHEMA
-import { schema as schemaServiceProducts } from '@services/service-products/graphql';
-// END SERVICES SCHEMA
+import { echoError, echoInfo, echoSuccess } from '@scripts/__utils';
+
+export interface IGenSchema {
+  name: string;
+  schema: GraphQLSchema;
+}
 
 const GENERATED_SCHEMA_WARNING: string = `\
 # -------------------------------------------
@@ -18,9 +20,29 @@ const GENERATED_SCHEMA_WARNING: string = `\
 
 const GENERATED_SCHEMA_DIRECTORY: string = '.generated/graphql';
 
-const SCHEMAS: { name: string; schema: GraphQLSchema }[] = [
-  { name: 'products', schema: schemaServiceProducts },
-];
+async function getGenSchemas(): Promise<IGenSchema[]> {
+  const schemas: IGenSchema[] = [];
+
+  const servicesDir = fs
+    .readdirSync('services')
+    .filter((service) => service.startsWith('service-'));
+
+  for (const serviceDir of servicesDir) {
+    try {
+      const name = serviceDir.replace(/^(service-)/, '');
+      const { schema }: { schema: GraphQLSchema } = await import(
+        `services/${serviceDir}/graphql/schema`
+      );
+
+      schemas.push({ name, schema });
+    } catch (error) {
+      echoError(`Unable to obtain schema of ${serviceDir}: ${error}`);
+      process.exit(1);
+    }
+  }
+
+  return schemas;
+}
 
 export async function genGraphql(): Promise<void> {
   // Create schema definitions directory
@@ -28,7 +50,7 @@ export async function genGraphql(): Promise<void> {
   // Remove old schema definition files
   shell.rm('-rf', `${GENERATED_SCHEMA_DIRECTORY}/*`);
 
-  for (const { name, schema } of SCHEMAS) {
+  for (const { name, schema } of await getGenSchemas()) {
     // Schema file path & name
     const schemaFilePath: string = `${GENERATED_SCHEMA_DIRECTORY}/${name}.graphql`;
     // Schema to emit
