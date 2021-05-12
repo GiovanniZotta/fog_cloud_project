@@ -27,8 +27,8 @@ export class Product {
   description?: string;
 
   @Column({ length: 512, nullable: true, default: undefined })
-  @Field(() => GraphQLURL, { description: `Product's image` })
-  image!: string;
+  @Field(() => GraphQLURL, { nullable: true, description: `Product's image` })
+  image?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz', update: false })
   @Field(() => GraphQLTimestamp, { description: `Product's creation timestamp` })
