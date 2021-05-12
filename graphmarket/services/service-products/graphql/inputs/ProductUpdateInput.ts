@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql';
-import { Length, MaxLength } from 'class-validator';
+import { Length } from 'class-validator';
 import { GraphQLNonEmptyString, GraphQLURL } from '@libs/graphql/scalars';
 import { Product } from '@libs/entities';
 
@@ -14,6 +14,5 @@ export class ProductUpdateInput implements Partial<Product> {
   description?: string;
 
   @Field(() => GraphQLURL, { nullable: true, description: `Product's image` })
-  @MaxLength(512)
   image?: string;
 }
