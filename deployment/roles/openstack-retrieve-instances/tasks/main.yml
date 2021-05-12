@@ -1,8 +1,5 @@
 --- 
 
-- debug:
-    msg: "Welcome in the {{ ansible_hostname }} machine!"
-
 - name: get apollo-manager info
   os_user_info:
     auth: "{{ admin_auth_settings }}"
@@ -30,11 +27,7 @@
 - debug:
     var: ip_list
 
-- debug:
-    msg: "{{ item }}"
-  with_items: "{{ ip_list }}"
-
-- name: Add hosts to current inventory
+- name: Add hosts to instances inventory group
   add_host:
     name: "{{ item }}"
     groups: instances
@@ -43,7 +36,6 @@
     ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q iaas"'
   loop: "{{ ip_list }}"
-
 
 # - name: Get last server name alphanumerically
 #   set_fact: 

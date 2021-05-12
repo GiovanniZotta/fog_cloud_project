@@ -1,5 +1,4 @@
 ---
-# vars file for gather
 project_auth_settings:
       auth_url: http://10.235.1.207/identity
       username: apollo-manager

@@ -2,7 +2,7 @@
 
 - hosts: openstack
   roles:
-    - openstack-nodes
+    - openstack-retrieve-instances
 
 # - name: Test Ping
 #   hosts: instances
