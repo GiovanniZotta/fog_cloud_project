@@ -1,0 +1,19 @@
+---
+
+- hosts: openstack
+  roles:
+    - openstack-nodes
+
+# - name: Test Ping
+#   hosts: instances
+#   tasks:
+#   - action: ping
+
+- name: Echo hostname
+  hosts: instances
+  tasks:
+  - shell: hostname
+    register: result
+
+  - debug:
+      var: result

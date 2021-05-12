@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Giovanni Zotta, Carlo Corradini
+  description: This role is used to configure the openstack instances created with openstack-spinup.
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies: []
