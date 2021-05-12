@@ -1,0 +1,9 @@
+---
+
+- hosts: openstack
+  roles:
+    - test
+
+- hosts: kubernetes
+  roles:
+    - test

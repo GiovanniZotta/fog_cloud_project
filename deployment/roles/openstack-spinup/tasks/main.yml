@@ -1,0 +1,60 @@
+---
+# tasks file for openstack-spinup
+- name: get apollo-manager info
+  os_user_info:
+    auth: "{{ admin_auth_settings }}"
+    name: apollo-manager
+  register: manager
+
+- debug:
+    msg: "No project manager was found. Run openstack-setup.yml first"
+  when: not manager.openstack_users
+
+- name: End the host if project auth is not valid
+  meta: end_host
+  when: not manager.openstack_users
+
+- name: Retrieve information about existing servers
+  os_server_info:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_server*
+  register: servers
+
+- name: Get last server name alphanumerically
+  set_fact: 
+    server_name: "{{ servers.openstack_servers | map(attribute=\"hostname\") | list | max if servers.openstack_servers else \"s0\"}}"
+
+- name: Get next available int
+  set_fact:
+    id: "{{ server_name | regex_replace('^.*(\\d)$', '\\1') | int + 1 }}"
+
+- debug:
+    var: id
+
+- name: Create persistent volume
+  os_volume:
+    auth: "{{ project_auth_settings }}"
+    display_name: "apollo_persistent{{ id }}"
+    state: present
+    size: 5
+
+- name: Create the server machine
+  os_server:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_server{{ id }}
+    flavor: ds2G # (2GB RAM 10GB HDD)
+    image: cirros-0.5.1-x86_64-disk
+    network: apollo_net
+    key_name: apollo_key
+    security_groups: apollo_sec_group
+    volumes:
+    - apollo_persistent{{ id }}
+
+- name: Create the floating IP for the server
+  os_floating_ip:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_server{{ id }}
+    network: public
+    wait: yes
+  register: server_ip

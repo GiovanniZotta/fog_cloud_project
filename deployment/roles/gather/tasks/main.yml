@@ -1,0 +1,8 @@
+--- 
+
+- debug:
+    msg: "Welcome in the {{ ansible_hostname }} machine!"
+
+- name: Show facts
+  ansible.builtin.debug:
+    var: ansible_facts

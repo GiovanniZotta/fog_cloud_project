@@ -1,0 +1,12 @@
+galaxy_info:
+  author: Giovanni Zotta, Carlo Corradini
+  description: This role contain all the task necessary to configure an Openstack project and user, with a functioning network and security rules.
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies:
+  - common
