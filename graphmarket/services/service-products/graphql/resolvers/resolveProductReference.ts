@@ -1,8 +1,11 @@
-import { getManager } from 'typeorm';
+import Container from 'typedi';
 import { Product } from '@libs/entities';
+import { ProductService } from '../../services';
+
+const productService: ProductService = Container.get(ProductService);
 
 export async function resolveProductReference(
   reference: Pick<Product, 'id'>,
 ): Promise<Product | undefined> {
-  return getManager().findOne(Product, reference.id);
+  return productService.readOneById(reference.id);
 }

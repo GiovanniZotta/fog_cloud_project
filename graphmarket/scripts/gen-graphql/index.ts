@@ -60,7 +60,7 @@ export async function genGraphql(): Promise<void> {
     // Write schema to file
     fs.writeFileSync(schemaFilePath, schemaToEmit);
 
-    echoInfo(`Generated schema definition '${schemaFilePath}' of service '${name}'`);
+    echoInfo(`Generated schema definition '${schemaFilePath}'`);
   }
 
   echoSuccess(`'gen-graphql' success`);

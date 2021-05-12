@@ -1,7 +1,7 @@
 import { env } from './env';
 
 export const config = {
-  name: 'products',
+  name: 'reviews',
   debug: env.DEBUG,
   node: {
     env: env.NODE_ENV,

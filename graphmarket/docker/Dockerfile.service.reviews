@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+
+# --- IMAGE
+FROM node:14-alpine
+
+# Set working directory
+WORKDIR /app
+
+# --- COPY
+# Files
+COPY package.json package-lock.json tsconfig.json ./
+# Directories
+COPY services ./services
+COPY libs ./libs
+
+# Install dev and prod dependencies
+RUN npm install
+
+# Build
+RUN npm run build
+
+# Remove dev dependencies
+RUN npm prune --production
+
+# --- BOOTSTRAP
+EXPOSE 80
+CMD ["npm", "run", "start:prod:service:reviews"]
