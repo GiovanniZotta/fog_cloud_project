@@ -89,19 +89,19 @@
     interfaces:
       - apollo_subnet
 
-- name: Create SSH keypair
-  os_keypair:
-    auth: "{{ project_auth_settings }}"
-    state: present
-    name: apollo_key
-  register: keypair_value
-  
 - name: Create .ssh directory in eval user home
   become: yes
   file:
     path: /home/eval/.ssh
     state: directory
     mode: '0777'
+    
+- name: Create SSH keypair
+  os_keypair:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_key
+  register: keypair_value  
 
 - name: Copy SSH key to eval user .ssh folder
   become: yes

@@ -44,9 +44,9 @@
     state: present
     name: apollo_server{{ id }}
     flavor: ds2G # (2GB RAM 10GB HDD)
-    image: cirros-0.5.1-x86_64-disk
+    image: ubuntu
     network: apollo_net
-    key_name: apollo_key
+    key_name: giovanni_key
     security_groups: apollo_sec_group
     volumes:
     - apollo_persistent{{ id }}
