@@ -4,6 +4,7 @@ import { Review } from '@libs/entities';
 import { ReviewCreateInput, ReviewUpdateInput } from '../graphql/inputs';
 import { ReviewRepository } from '../repositories';
 import { logger } from '../logger';
+import { ReadReviewsArgs } from '../graphql/args';
 
 @Service()
 export class ReviewService {
@@ -31,12 +32,14 @@ export class ReviewService {
     return reviewRepository.readOneById(id);
   }
 
-  // TODO args
   @Transaction()
-  public read(@TransactionManager() manager?: EntityManager): Promise<Review[]> {
+  public read(
+    options: ReadReviewsArgs = {},
+    @TransactionManager() manager?: EntityManager,
+  ): Promise<Review[]> {
     const reviewRepository: ReviewRepository = manager!.getCustomRepository(ReviewRepository);
 
-    return reviewRepository.read();
+    return reviewRepository.read(options);
   }
 
   @Transaction()
