@@ -9,7 +9,7 @@ export const env = cleanEnv(process.env, {
     devDefault: 'development',
     choices: ['production', 'development', 'test'],
   }),
-  PORT: port({ devDefault: 8081 }),
+  PORT: port({ default: 80, devDefault: 8081 }),
   DEBUG: bool({ default: false, devDefault: true }),
   GRAPHQL_PATH: str({ default: '/graphql' }),
   DATABASE_URL: url(),

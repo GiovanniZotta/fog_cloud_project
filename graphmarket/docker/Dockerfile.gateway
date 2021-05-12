@@ -3,10 +3,6 @@
 # --- IMAGE
 FROM node:14-alpine
 
-# --- ENVs
-# Node port
-ENV PORT=80
-
 # Set working directory
 WORKDIR /app
 

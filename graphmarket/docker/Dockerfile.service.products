@@ -3,12 +3,6 @@
 # --- IMAGE
 FROM node:14-alpine
 
-# --- ENVs
-# Node port
-ENV PORT=80
-# Database url
-ENV DATABASE_URL=
-
 # Set working directory
 WORKDIR /app
 
