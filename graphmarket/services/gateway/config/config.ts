@@ -9,7 +9,8 @@ export const config = {
   },
   graphql: {
     path: env.GRAPHQL_PATH,
-    playground: env.DEBUG,
+    playground: env.GRAPHQL_PLAYGROUND,
+    apollo_key: env.APOLLO_KEY,
   },
   services: {
     products: {

@@ -9,9 +9,11 @@ import { logger } from './logger';
 const gateway = fastify({ logger: { level: config.logger.level } });
 
 // Apollo Gateway
-const apolloGateway = new ApolloGateway({
-  serviceList: [{ name: config.services.products.name, url: config.services.products.url }],
-});
+const apolloGateway = new ApolloGateway(
+  config.graphql.apollo_key
+    ? undefined
+    : { serviceList: [{ name: config.services.products.name, url: config.services.products.url }] },
+);
 
 // Apollo Server
 const server = new ApolloServer({
