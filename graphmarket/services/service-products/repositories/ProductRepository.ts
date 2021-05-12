@@ -1,6 +1,7 @@
-import { AbstractRepository, EntityRepository } from 'typeorm';
+import { AbstractRepository, EntityRepository, In } from 'typeorm';
 import { Product } from '@libs/entities';
 import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
+import { ReadProductsArgs } from '../graphql/args';
 
 @EntityRepository(Product)
 export class ProductRepository extends AbstractRepository<Product> {
@@ -19,9 +20,13 @@ export class ProductRepository extends AbstractRepository<Product> {
     return this.manager.findOne(Product, id);
   }
 
-  // TODO find options
-  public read(): Promise<Product[]> {
-    return this.manager.find(Product);
+  public read(options: ReadProductsArgs = {}): Promise<Product[]> {
+    return this.manager.find(Product, {
+      where: {
+        // FIXME funziona o no?
+        ...(options.reviewsIds && { reviewsIds: In(options.reviewsIds) }),
+      },
+    });
   }
 
   public async update(id: string, product: ProductUpdateInput): Promise<Product> {

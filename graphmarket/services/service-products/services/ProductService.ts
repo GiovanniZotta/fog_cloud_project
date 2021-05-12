@@ -2,6 +2,7 @@ import { EntityManager, Transaction, TransactionManager } from 'typeorm';
 import { Service } from 'typedi';
 import { Product } from '@libs/entities';
 import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
+import { ReadProductsArgs } from '../graphql/args';
 import { ProductRepository } from '../repositories';
 import { logger } from '../logger';
 
@@ -31,12 +32,14 @@ export class ProductService {
     return productRepository.readOneById(id);
   }
 
-  // TODO args
   @Transaction()
-  public read(@TransactionManager() manager?: EntityManager): Promise<Product[]> {
+  public read(
+    options: ReadProductsArgs,
+    @TransactionManager() manager?: EntityManager,
+  ): Promise<Product[]> {
     const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
 
-    return productRepository.read();
+    return productRepository.read(options);
   }
 
   @Transaction()

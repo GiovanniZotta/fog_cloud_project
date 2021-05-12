@@ -24,7 +24,7 @@ export class ProductResolver {
   // TODO args
   @Query(() => [Product], { description: `Return all products` })
   products(): Promise<Product[]> {
-    return this.productService.read();
+    return this.productService.read({});
   }
 
   @Mutation(() => Product, { description: `Update the product` })

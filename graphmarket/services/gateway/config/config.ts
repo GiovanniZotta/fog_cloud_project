@@ -17,6 +17,10 @@ export const config = {
       name: 'products',
       url: env.SERVICE_PRODUCTS_URL,
     },
+    reviews: {
+      name: 'reviews',
+      url: env.SERVICE_REVIEWS_URL,
+    },
   },
   logger: {
     level: env.DEBUG ? 'debug' : 'info',

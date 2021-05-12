@@ -20,11 +20,11 @@ export class ReviewRepository extends AbstractRepository<Review> {
     return this.manager.findOne(Review, id);
   }
 
-  public read(options?: ReadReviewsArgs): Promise<Review[]> {
+  public read(options: ReadReviewsArgs = {}): Promise<Review[]> {
     return this.manager.find(Review, {
       where: {
         // FIXME non so se posso semplificare
-        ...(options?.productId && { product: { id: options.productId } }),
+        ...(options.productId && { product: { id: options.productId } }),
       },
     });
   }

@@ -24,7 +24,7 @@ export class ReviewResolver {
   // TODO args
   @Query(() => [Review], { description: `Return all reviews` })
   reviews(): Promise<Review[]> {
-    return this.reviewService.read();
+    return this.reviewService.read({});
   }
 
   @Mutation(() => Review, { description: `Update the review` })

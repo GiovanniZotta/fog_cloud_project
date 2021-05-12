@@ -34,7 +34,7 @@ export class ReviewService {
 
   @Transaction()
   public read(
-    options: ReadReviewsArgs = {},
+    options: ReadReviewsArgs,
     @TransactionManager() manager?: EntityManager,
   ): Promise<Review[]> {
     const reviewRepository: ReviewRepository = manager!.getCustomRepository(ReviewRepository);

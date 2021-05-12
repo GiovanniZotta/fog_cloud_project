@@ -12,7 +12,12 @@ const gateway = fastify({ logger: { level: config.logger.level } });
 const apolloGateway = new ApolloGateway(
   config.graphql.apollo_key
     ? undefined
-    : { serviceList: [{ name: config.services.products.name, url: config.services.products.url }] },
+    : {
+        serviceList: [
+          { name: config.services.products.name, url: config.services.products.url },
+          { name: config.services.reviews.name, url: config.services.reviews.url },
+        ],
+      },
 );
 
 // Apollo Server
