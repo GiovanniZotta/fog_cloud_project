@@ -20,7 +20,7 @@ const GENERATED_SCHEMA_WARNING: string = `\
 
 const GENERATED_SCHEMA_DIRECTORY: string = '.generated/graphql';
 
-async function getGenSchemas(): Promise<IGenSchema[]> {
+async function readSchemas(): Promise<IGenSchema[]> {
   const schemas: IGenSchema[] = [];
 
   const servicesDir = fs
@@ -50,7 +50,7 @@ export async function genGraphql(): Promise<void> {
   // Remove old schema definition files
   shell.rm('-rf', `${GENERATED_SCHEMA_DIRECTORY}/*`);
 
-  for (const { name, schema } of await getGenSchemas()) {
+  for (const { name, schema } of await readSchemas()) {
     // Schema file path & name
     const schemaFilePath: string = `${GENERATED_SCHEMA_DIRECTORY}/${name}.graphql`;
     // Schema to emit
