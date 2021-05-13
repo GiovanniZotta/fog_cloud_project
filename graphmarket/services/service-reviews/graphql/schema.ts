@@ -1,12 +1,13 @@
 import { Container } from 'typedi';
-import { ProductReference, Review } from '@libs/entities';
+import { Review } from '@libs/entities';
 import { buildFederatedSchema } from '@libs/helpers';
-import { ReviewResolver, resolveReviewReference, ProductReviewResolver } from './resolvers';
+import { Product } from '../entities';
+import { ReviewResolver, resolveReviewReference, ProductResolver } from './resolvers';
 
 export const schema = buildFederatedSchema(
   {
-    resolvers: [ReviewResolver, ProductReviewResolver],
-    orphanedTypes: [Review, ProductReference],
+    resolvers: [ReviewResolver, ProductResolver],
+    orphanedTypes: [Review, Product],
     container: Container,
   },
   { Review: { __resolveReference: resolveReviewReference } },
