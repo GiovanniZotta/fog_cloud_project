@@ -4,9 +4,9 @@ import { Product as ProductBase } from '@libs/entities';
 
 @ObjectType('Product')
 @Directive(`@key(fields: "id")`)
-@Directive('@extends')
+@Directive(`@extends`)
 export class Product implements Partial<ProductBase> {
   @Field(() => GraphQLID)
-  @Directive('@external')
+  @Directive(`@external`)
   id!: string;
 }
