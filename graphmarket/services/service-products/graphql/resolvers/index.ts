@@ -1,3 +1,3 @@
 export * from './resolveProductReference';
 export * from './ProductResolver';
-export * from './ReviewProductResolver';
+export * from './ReviewResolver';
