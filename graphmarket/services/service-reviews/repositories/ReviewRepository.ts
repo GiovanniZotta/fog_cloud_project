@@ -1,27 +1,24 @@
 import { AbstractRepository, EntityRepository } from 'typeorm';
-import { Product, Review } from '@libs/entities';
+import { Review } from '@libs/entities';
 import { ReviewCreateInput, ReviewUpdateInput } from '../graphql/inputs';
 import { ReadReviewsArgs } from '../graphql/args';
 
 @EntityRepository(Review)
 export class ReviewRepository extends AbstractRepository<Review> {
   public create(review: ReviewCreateInput): Promise<Review> {
-    return this.manager.save(
-      Review,
-      this.manager.create(Review, {
-        title: review.title,
-        body: review.body,
-        product: this.manager.create(Product, { id: review.productId }),
-      }),
-    );
+    return this.repository.save({
+      title: review.title,
+      body: review.body,
+      product: { id: review.productId },
+    });
   }
 
   public readOneById(id: string): Promise<Review | undefined> {
-    return this.manager.findOne(Review, id);
+    return this.repository.findOne(id);
   }
 
   public read(options: ReadReviewsArgs = {}): Promise<Review[]> {
-    return this.manager.find(Review, {
+    return this.repository.find({
       where: {
         // FIXME non so se posso semplificare
         ...(options.productId && { product: { id: options.productId } }),
@@ -31,25 +28,18 @@ export class ReviewRepository extends AbstractRepository<Review> {
 
   public async update(id: string, review: ReviewUpdateInput): Promise<Review> {
     // Check if review exists
-    await this.manager.findOneOrFail(Review, id);
+    await this.repository.findOneOrFail(id);
 
-    // Update
-    await this.manager.update(
-      Review,
-      id,
-      this.manager.create(Review, { title: review.title, body: review.body }),
-    );
-
-    // Return updated review
-    return this.manager.findOneOrFail(Review, id);
+    // Update and return
+    return this.repository.save({ id, title: review.title, body: review.body });
   }
 
   public async delete(id: string): Promise<Review> {
     // Check if review exists
-    const review: Review = await this.manager.findOneOrFail(Review, id);
+    const review: Review = await this.repository.findOneOrFail(id);
 
     // Delete
-    await this.manager.delete(Review, id);
+    await this.repository.delete(id);
 
     // Return deleted review
     return review;

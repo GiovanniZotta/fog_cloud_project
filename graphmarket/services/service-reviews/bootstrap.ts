@@ -1,23 +1,16 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, useContainer } from 'typeorm';
+import { Container } from 'typeorm-typedi-extensions';
+import { initializeTransactionalContext } from 'typeorm-transactional-cls-hooked';
 import { buildGraphQLService } from '@libs/helpers';
 import { entitiesList } from '@libs/entities';
-import { schema } from './graphql';
 import { config } from './config';
 import { logger } from './logger';
-
 // Bootstrap
 async function bootstrap() {
-  // Build GraphQL service
-  const service = await buildGraphQLService({
-    schema,
-    path: config.graphql.path,
-    loggerLevel: config.logger.level,
-    playground: config.graphql.playground,
-  });
-  logger.info('Service built');
-
   // Database
+  useContainer(Container);
+  initializeTransactionalContext();
   await createConnection({
     type: 'postgres',
     url: config.database.url,
@@ -27,6 +20,15 @@ async function bootstrap() {
     entities: entitiesList,
   });
   logger.info('Database connected');
+
+  // Build GraphQL service
+  const service = await buildGraphQLService({
+    schema: (await import('./graphql')).schema,
+    path: config.graphql.path,
+    loggerLevel: config.logger.level,
+    playground: config.graphql.playground,
+  });
+  logger.info('Service built');
 
   // Start service
   await service.listen(config.node.port);

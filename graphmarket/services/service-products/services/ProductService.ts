@@ -1,4 +1,5 @@
-import { EntityManager, Transaction, TransactionManager } from 'typeorm';
+import { Propagation, Transactional } from 'typeorm-transactional-cls-hooked';
+import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Service } from 'typedi';
 import { Product } from '@libs/entities';
 import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
@@ -8,62 +9,40 @@ import { logger } from '../logger';
 
 @Service()
 export class ProductService {
-  @Transaction()
-  public async create(
-    product: ProductCreateInput,
-    @TransactionManager() manager?: EntityManager,
-  ): Promise<Product> {
-    const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
+  @InjectRepository()
+  private readonly productRepository!: ProductRepository;
 
-    const newProduct: Product = await productRepository.create(product);
+  @Transactional({ propagation: Propagation.REQUIRED })
+  public async create(product: ProductCreateInput): Promise<Product> {
+    const newProduct: Product = await this.productRepository.create(product);
 
     logger.info(`Created product ${newProduct.id}`);
 
     return newProduct;
   }
 
-  @Transaction()
-  public readOneById(
-    id: string,
-    @TransactionManager() manager?: EntityManager,
-  ): Promise<Product | undefined> {
-    const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
-
-    return productRepository.readOneById(id);
+  @Transactional({ propagation: Propagation.SUPPORTS })
+  public readOneById(id: string): Promise<Product | undefined> {
+    return this.productRepository.readOneById(id);
   }
 
-  @Transaction()
-  public read(
-    options: ReadProductsArgs,
-    @TransactionManager() manager?: EntityManager,
-  ): Promise<Product[]> {
-    const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
-
-    return productRepository.read(options);
+  @Transactional({ propagation: Propagation.SUPPORTS })
+  public read(options: ReadProductsArgs): Promise<Product[]> {
+    return this.productRepository.read(options);
   }
 
-  @Transaction()
-  public async update(
-    id: string,
-    product: ProductUpdateInput,
-    @TransactionManager() manager?: EntityManager,
-  ): Promise<Product> {
-    const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
-
-    // Update product
-    const productUpdated: Product = await productRepository.update(id, product);
+  @Transactional({ propagation: Propagation.REQUIRED })
+  public async update(id: string, product: ProductUpdateInput): Promise<Product> {
+    const productUpdated: Product = await this.productRepository.update(id, product);
 
     logger.info(`Updated product ${id}`);
 
     return productUpdated;
   }
 
-  @Transaction()
-  public async delete(id: string, @TransactionManager() manager?: EntityManager): Promise<Product> {
-    const productRepository: ProductRepository = manager!.getCustomRepository(ProductRepository);
-
-    // Delete product
-    const product: Product = await productRepository.delete(id);
+  @Transactional({ propagation: Propagation.REQUIRED })
+  public async delete(id: string): Promise<Product> {
+    const product: Product = await this.productRepository.delete(id);
 
     logger.info(`Deleted product ${id}`);
 

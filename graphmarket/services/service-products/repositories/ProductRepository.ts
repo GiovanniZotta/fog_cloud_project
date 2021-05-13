@@ -6,9 +6,8 @@ import { ReadProductsArgs } from '../graphql/args';
 @EntityRepository(Product)
 export class ProductRepository extends AbstractRepository<Product> {
   public create(product: ProductCreateInput): Promise<Product> {
-    return this.manager.save(
-      Product,
-      this.manager.create(Product, {
+    return this.repository.save(
+      this.repository.create({
         name: product.name,
         description: product.description,
         image: product.name,
@@ -17,11 +16,11 @@ export class ProductRepository extends AbstractRepository<Product> {
   }
 
   public readOneById(id: string): Promise<Product | undefined> {
-    return this.manager.findOne(Product, id);
+    return this.repository.findOne(id);
   }
 
   public read(options: ReadProductsArgs = {}): Promise<Product[]> {
-    return this.manager.find(Product, {
+    return this.repository.find({
       where: {
         // FIXME funziona o no?
         ...(options.reviewsIds && { reviewsIds: In(options.reviewsIds) }),
@@ -31,21 +30,25 @@ export class ProductRepository extends AbstractRepository<Product> {
 
   public async update(id: string, product: ProductUpdateInput): Promise<Product> {
     // Check if product exists
-    await this.manager.findOneOrFail(Product, id);
+    await this.repository.findOneOrFail(id);
 
-    // Update
-    await this.manager.update(Product, id, this.manager.create(Product, product));
-
-    // Return updated product
-    return this.manager.findOneOrFail(Product, id);
+    // Update and return
+    return this.repository.save(
+      this.repository.create({
+        id,
+        name: product.name,
+        description: product.description,
+        image: product.image,
+      }),
+    );
   }
 
   public async delete(id: string): Promise<Product> {
     // Check if product exists
-    const product: Product = await this.manager.findOneOrFail(Product, id);
+    const product: Product = await this.repository.findOneOrFail(id);
 
     // Delete
-    await this.manager.delete(Product, id);
+    await this.repository.delete(id);
 
     // Return deleted product
     return product;
