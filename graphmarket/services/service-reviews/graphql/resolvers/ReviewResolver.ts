@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { Review } from '@libs/entities';
 import { GraphQLID } from '@libs/graphql';
 import { ReviewService } from '../../services';
 import { ReviewCreateInput, ReviewUpdateInput } from '../inputs';
+import { ReadReviewsArgs } from '../args';
 
 @Resolver(Review)
 @Service()
@@ -21,10 +22,9 @@ export class ReviewResolver {
     return this.reviewService.readOneById(id);
   }
 
-  // TODO args
   @Query(() => [Review], { description: `Return all reviews` })
-  reviews(): Promise<Review[]> {
-    return this.reviewService.read({});
+  reviews(@Args() args: ReadReviewsArgs): Promise<Review[]> {
+    return this.reviewService.read(args);
   }
 
   @Mutation(() => Review, { description: `Update the review` })

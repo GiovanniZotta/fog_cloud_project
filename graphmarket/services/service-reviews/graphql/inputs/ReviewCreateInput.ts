@@ -1,10 +1,9 @@
 import { Field, InputType } from 'type-graphql';
 import { Length } from 'class-validator';
 import { GraphQLID, GraphQLNonEmptyString } from '@libs/graphql/scalars';
-import { Review } from '@libs/entities';
 
 @InputType('ReviewCreateInput', { description: `Review create input` })
-export class ReviewCreateInput implements Partial<Review> {
+export class ReviewCreateInput {
   @Field(() => GraphQLID, { description: `Review's product identifier` })
   productId!: string;
 

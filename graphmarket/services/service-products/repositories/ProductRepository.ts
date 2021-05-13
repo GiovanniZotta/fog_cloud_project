@@ -5,13 +5,11 @@ import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
 @EntityRepository(Product)
 export class ProductRepository extends AbstractRepository<Product> {
   public create(product: ProductCreateInput): Promise<Product> {
-    return this.repository.save(
-      this.repository.create({
-        name: product.name,
-        description: product.description,
-        image: product.name,
-      }),
-    );
+    return this.repository.save({
+      name: product.name,
+      description: product.description,
+      image: product.image?.href,
+    });
   }
 
   public readOneById(id: string): Promise<Product | undefined> {

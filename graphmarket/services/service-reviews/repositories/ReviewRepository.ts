@@ -20,8 +20,7 @@ export class ReviewRepository extends AbstractRepository<Review> {
   public read(options: ReadReviewsArgs = {}): Promise<Review[]> {
     return this.repository.find({
       where: {
-        // FIXME non so se posso semplificare
-        ...(options.productId && { product: { id: options.productId } }),
+        product: { id: options.productId },
       },
     });
   }
