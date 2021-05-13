@@ -43,5 +43,6 @@ export class Review {
   product!: Product;
 
   @RelationId((review: Review) => review.product)
+  @Field(() => GraphQLID, { description: `Review's product identifier` })
   productId!: string;
 }

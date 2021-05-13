@@ -1,4 +1,4 @@
-import { FieldResolver, Resolver, Root } from 'type-graphql';
+import { Directive, FieldResolver, Resolver, Root } from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { Product } from '@libs/entities';
 import { ProductService } from '../../services';
@@ -11,9 +11,8 @@ export class ReviewResolver {
   private readonly productService!: ProductService;
 
   @FieldResolver(() => Product, { description: `Review's product` })
-  async product(@Root() review: Review): Promise<Product | undefined> {
-    const products = await this.productService.read({ reviewsIds: [review.id] });
-
-    return products.length === 0 ? undefined : products[0];
+  @Directive(`@requires(fields: "productId")`)
+  product(@Root() review: Review): Promise<Product | undefined> {
+    return this.productService.readOneById(review.productId);
   }
 }
