@@ -25,7 +25,6 @@ async function bootstrap() {
   const service = await buildGraphQLService({
     schema: (await import('./graphql')).schema,
     path: config.graphql.path,
-    loggerLevel: config.logger.level,
     playground: config.graphql.playground,
   });
   logger.info('Service built');

@@ -18,11 +18,10 @@ export async function buildGraphQLService(
   > & {
     path?: string;
     playground?: boolean;
-    loggerLevel?: string;
   },
 ) {
   // Fastify
-  const app = fastify({ logger: { level: config.loggerLevel } });
+  const app = fastify();
 
   // Apollo Server
   const server = new ApolloServer({
