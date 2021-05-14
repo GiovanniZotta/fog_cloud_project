@@ -3,15 +3,18 @@
 # --- IMAGE
 FROM node:14-alpine
 
+# --- ARGS
+ARG CONTEXT=graphmarket
+
 # Set working directory
 WORKDIR /app
 
 # --- COPY
 # Files
-COPY package.json package-lock.json tsconfig.json ./
+COPY ${CONTEXT}/package.json ${CONTEXT}/package-lock.json ${CONTEXT}/tsconfig.json ./
 # Directories
-COPY services ./services
-COPY libs ./libs
+COPY ${CONTEXT}/services ./services
+COPY ${CONTEXT}/libs ./libs
 
 # Install dev and prod dependencies
 RUN npm install
@@ -24,4 +27,4 @@ RUN npm prune --production
 
 # --- BOOTSTRAP
 EXPOSE 80
-CMD ["npm", "run", "start:prod:service:reviews"]
+CMD ["npm", "run", "start:prod:gateway"]
