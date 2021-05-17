@@ -13,7 +13,7 @@ Project for the course on Fog and Cloud Computing
 
 ## Kind with a local registry
 
-> Base on <https://github.com/tilt-dev/kind-local>
+> Based on <https://github.com/tilt-dev/kind-local>
 
 When developing locally, you want to push images to the cluster as fast as possible.
 
@@ -57,3 +57,37 @@ This makes it a great solution for iterative local development. But setting it u
 3. Use the image
 
    You can now use the image name `localhost:5000/gateway` in any resources you deploy to the Kind cluster.
+
+## Docker
+
+Build Docker images
+
+```bash
+$ ./docker/docker.sh
+```
+
+### Arguments
+
+- --push=<true|false>
+
+  Default: **false**
+
+  Push the images to the local registry.
+
+- --push-prefix=<value>
+
+  Default: **localhost:5000/**
+
+  Prefix for local registry images.
+
+## Kubernetes
+
+### Ingress
+
+#### Kind
+
+> Based on <https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx>
+
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+```
