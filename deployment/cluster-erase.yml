@@ -1,6 +1,9 @@
 ---
 
+- hosts: kubernetes
+  roles:
+    - master-erase
+
 - hosts: openstack
   roles:
     - openstack-erase
-

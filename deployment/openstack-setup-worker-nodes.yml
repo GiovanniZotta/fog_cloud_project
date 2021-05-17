@@ -4,16 +4,16 @@
   roles:
     - openstack-retrieve-instances
 
-# - name: Test Ping
+- hosts: instances
+  roles:
+    - common
+    - install-worker-node
+    
+# - name: Echo hostname
 #   hosts: instances
 #   tasks:
-#   - action: ping
+#   - shell: hostname
+#     register: result
 
-- name: Echo hostname
-  hosts: instances
-  tasks:
-  - shell: hostname
-    register: result
-
-  - debug:
-      var: result
+#   - debug:
+#       var: result

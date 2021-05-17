@@ -1,0 +1,9 @@
+---
+
+- hosts: openstack
+  roles:
+    - openstack-retrieve-instances
+
+- hosts: instances
+  roles:
+    - test-instances

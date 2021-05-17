@@ -1,0 +1,15 @@
+---
+
+- name: Delete workers
+  shell: kubectl delete nodes apollo-server{{ item }}
+  loop:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  ignore_errors: yes
+
+- name: Reset cluster
+  become: yes
+  shell: kubeadm reset --force

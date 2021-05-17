@@ -36,14 +36,3 @@
     ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q iaas"'
   loop: "{{ ip_list }}"
-
-# - name: Get last server name alphanumerically
-#   set_fact: 
-#     server_name: "{{ servers.openstack_servers | map(attribute=\"hostname\") | list | max if servers.openstack_servers else \"s0\"}}"
-
-# - name: Get next available int
-#   set_fact:
-#     id: "{{ server_name | regex_replace('^.*(\\d)$', '\\1') | int + 1 }}"
-
-# - debug:
-#     var: id

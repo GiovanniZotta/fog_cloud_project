@@ -3,3 +3,4 @@
 - hosts: openstack
   roles:
     - openstack-setup
+    - ubuntu-image

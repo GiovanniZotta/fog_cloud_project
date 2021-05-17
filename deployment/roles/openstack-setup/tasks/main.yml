@@ -95,6 +95,22 @@
     path: /home/eval/.ssh
     state: directory
     mode: '0777'
+
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: "{{lookup('env','FCC_PUBLIC_KEY')}}"
+    dest: /home/giovanni.zotta/pubkey.pub
+    owner: giovanni.zotta
+    group: giovanni.zotta
+    mode: '0644'
+
+- name: Import giovanni_pub_key
+  become: yes
+  os_keypair:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: giovanni_key
+    public_key_file: "/home/giovanni.zotta/pubkey.pub"
     
 - name: Create SSH keypair
   os_keypair:
@@ -112,7 +128,7 @@
 - name: Copy SSH key to eval user .ssh folder
   become: yes
   copy:
-    content: "{{ keypair_value['key']['public_key'] }}" 
+    content: "{{ keypair_value['key']['public_key'] }}"
     dest: "/home/eval/.ssh/id_rsa.pub"
 
 - name: Save the private key to local if it has been updated
@@ -129,13 +145,24 @@
     name: apollo_sec_group
     description: security group for Apollo
 
-- name: Add the SSH ingress rule
+- name: Open all TCP ports in ingress (hmmm... doesn't look like a good idea, but we'll work with this)
   os_security_group_rule:
     auth: "{{ project_auth_settings }}"
     security_group: apollo_sec_group
     protocol: tcp
-    port_range_min: 22
-    port_range_max: 22
+    port_range_min: 1
+    port_range_max: 65535
+    direction: ingress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Open all UDP ports in ingress (hmmm... doesn't look like a good idea, but we'll work with this)
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
     direction: ingress
     remote_ip_prefix: 0.0.0.0/0
   ignore_errors: yes
@@ -145,6 +172,17 @@
     auth: "{{ project_auth_settings }}"
     security_group: apollo_sec_group
     protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    direction: egress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Add the all UDP egress rule
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: udp
     port_range_min: 1
     port_range_max: 65535
     direction: egress

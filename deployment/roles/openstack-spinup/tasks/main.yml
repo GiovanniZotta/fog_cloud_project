@@ -20,9 +20,6 @@
     server: apollo_server*
   register: servers
 
-- debug:
-    var: servers
-
 - name: Get last server name alphanumerically
   set_fact: 
     server_name: "{{ servers.openstack_servers | map(attribute=\"hostname\") | list | max if servers.openstack_servers else \"s0\"}}"

@@ -24,13 +24,12 @@
     name: git
     state: present
     update_cache: yes
-
 # Add the eval user required by the project
 # Password generate with ‘python3 -c 'import crypt; print(crypt.crypt("eval", "$1$B2Slg7Uy6E$"))'‘
-- name: Add the eval user
-  become: yes
-  user:
-    name: eval
-    password: "{{ 'eval' | password_hash('sha512') }}"
-    shell: /bin/bash
-    append: yes
+# - name: Add the eval user
+#   become: yes
+#   user:
+#     name: eval
+#     password: "{{ 'eval' | password_hash('sha512') }}"
+#     shell: /bin/bash
+#     append: yes

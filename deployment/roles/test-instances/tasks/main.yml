@@ -1,0 +1,17 @@
+--- 
+
+- debug:
+    msg: "Welcome {{ ansible_user }}, you are in the {{ ansible_hostname }} machine!"
+
+- debug: 
+    var: hostvars[inventory_hostname]['ansible_host']
+
+- name: Export IP in HOST_IP
+  shell: HOST_IP="{{ hostvars[inventory_hostname]['ansible_host'] }}"
+
+- name: echo IP
+  shell: echo $HOST_IP
+  register: ip
+
+- debug:
+    var: ip
