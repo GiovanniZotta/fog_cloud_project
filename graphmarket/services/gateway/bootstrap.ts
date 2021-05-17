@@ -14,8 +14,14 @@ const apolloGateway = new ApolloGateway(
     ? undefined
     : {
         serviceList: [
-          { name: config.services.products.name, url: config.services.products.url },
-          { name: config.services.reviews.name, url: config.services.reviews.url },
+          {
+            name: config.graphql.services.products.name,
+            url: config.graphql.services.products.url,
+          },
+          {
+            name: config.graphql.services.reviews.name,
+            url: config.graphql.services.reviews.url,
+          },
         ],
       },
 );
