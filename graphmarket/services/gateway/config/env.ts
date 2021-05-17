@@ -13,7 +13,7 @@ export const env = cleanEnv(process.env, {
   DEBUG: bool({ default: false, devDefault: true }),
   GRAPHQL_PATH: str({ default: '/graphql' }),
   GRAPHQL_PLAYGROUND: bool({ default: true }),
-  APOLLO_KEY: str({ devDefault: '' }),
+  APOLLO_KEY: str({ default: '' }),
   GRAPHQL_SERVICE_PRODUCTS_URL: url({ default: undefined, devDefault: 'http://localhost:8081/graphql' }),
   GRAPHQL_SERVICE_REVIEWS_URL: url({ default: undefined, devDefault: 'http://localhost:8082/graphql' }),
 });
