@@ -13,3 +13,9 @@
 - name: Reset cluster
   become: yes
   shell: kubeadm reset --force
+
+- name: Remove .kube directory
+  become: yes
+  file:
+    path: /home/{{ansible_user}}/.kube/
+    state: absent

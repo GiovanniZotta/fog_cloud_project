@@ -1,9 +1,9 @@
 common
 =========
 
-This role contains the instructions needed to setup an Openstack instance in order to be a Kubernetes worker node
+This role contains the instructions needed to setup a Kubernetes Master node
 
 Requirements
 ------------
 
-To run this role it is necessary to have an Openstack instance running Ubuntu
+To run this role it is necessary to have run the install-worker-node role and common role on the target machine.

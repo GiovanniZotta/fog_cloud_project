@@ -5,7 +5,6 @@
   shell: kubeadm init --apiserver-advertise-address=10.235.1.107 --pod-network-cidr=10.244.0.0/16 
 
 - name: create .kube directory
-  become: yes
   file:
     path: $HOME/.kube
     state: directory
@@ -15,7 +14,7 @@
   become: yes
   copy:
     src: /etc/kubernetes/admin.conf
-    dest: /root/.kube/config
+    dest: /home/{{ ansible_user }}/.kube/config
     remote_src: yes
 
 - name: Configure Flannel CNI plugin

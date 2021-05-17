@@ -2,6 +2,8 @@
 
 - hosts: kubernetes
   roles:
+    - common
+    - install-worker-node
     - master-init
 
 - hosts: kubernetes
@@ -15,6 +17,9 @@
     - name: Set join command
       set_fact:
         join_command: "{{ join_command_raw.stdout_lines[0] }}"
+    
+    - debug:
+        var: join_command
 
 - hosts: openstack
   roles:
