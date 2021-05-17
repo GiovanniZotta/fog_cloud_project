@@ -1,0 +1,58 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: service-reviews-secret
+type: Opaque
+data:
+  DATABASE_URL: cG9zdGdyZXM6Ly9wb3N0Z3JlczpwYXNzd29yZEAxOTIuMTY4LjAuMjU6NTQzMi9ncmFwaG1hcmtldA== # postgres://postgres:password@localhost:5432/graphmarket
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-reviews-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-reviews
+  template:
+    metadata:
+      labels:
+        app: service-reviews
+    spec:
+      containers:
+        - name: service-reviews
+          image: localhost:5000/service-reviews
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: service-reviews-secret
+                  key: DATABASE_URL
+            - name: GRAPHQL_PLAYGROUND
+              value: "true"
+          resources:
+            limits:
+              memory: 4Gi
+              cpu: "4"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-reviews-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: service-reviews
+  ports:
+    - protocol: TCP
+      port: 80
