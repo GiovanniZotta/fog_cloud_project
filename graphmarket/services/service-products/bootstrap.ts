@@ -19,6 +19,11 @@ async function bootstrap() {
     synchronize: config.database.synchronize,
     logging: config.database.logging,
     entities: entitiesList,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
   });
   logger.info('Database connected');
 
@@ -31,7 +36,8 @@ async function bootstrap() {
   logger.info('Service built');
 
   // Start service
-  await service.listen(config.node.port);
+  const serviceUrl = await service.listen(config.node.port, '0.0.0.0');
+  logger.info(`Service running on ${serviceUrl + config.graphql.path}`);
 }
 
 bootstrap()

@@ -36,7 +36,8 @@ async function bootstrap() {
   logger.info('Gateway built');
 
   // Start gateway
-  await gateway.listen(config.node.port);
+  const serviceUrl = await gateway.listen(config.node.port, '0.0.0.0');
+  logger.info(`Service running on ${serviceUrl + config.graphql.path}`);
 }
 
 bootstrap()
