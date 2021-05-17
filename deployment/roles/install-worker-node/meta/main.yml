@@ -1,6 +1,6 @@
 galaxy_info:
   author: Giovanni Zotta, Carlo Corradini
-  description: This role contains the instructions needed to setup an Openstack instance in order to be a Kubernetes worker node
+  description: This role contains the instructions needed to setup an Openstack instance in order to be a Kubernetes node
 
   license: MIT
 

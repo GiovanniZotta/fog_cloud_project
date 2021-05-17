@@ -96,20 +96,20 @@
     state: directory
     mode: '0777'
 
-- name: Copy file with owner and permissions
-  ansible.builtin.copy:
+- name: Copy the public key to the remote host
+  copy:
     src: "{{lookup('env','FCC_PUBLIC_KEY')}}"
     dest: $HOME/pubkey.pub
     owner: $USER
     group: $USER
     mode: '0644'
 
-- name: Import giovanni_key
+- name: Import ansible_key
   become: yes
   os_keypair:
     auth: "{{ project_auth_settings }}"
     state: present
-    name: giovanni_key
+    name: ansible_key
     public_key_file: $HOME/pubkey.pub
     
 - name: Create SSH keypair

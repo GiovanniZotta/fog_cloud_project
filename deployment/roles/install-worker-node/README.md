@@ -1,7 +1,7 @@
 common
 =========
 
-This role contains the instructions needed to setup an Openstack instance in order to be a Kubernetes worker node
+This role contains the instructions needed to setup an Openstack instance in order to be a Kubernetes node
 
 Requirements
 ------------

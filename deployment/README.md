@@ -5,6 +5,12 @@ Our architecture is the following: we have a Kubernetes Master node running on t
 
 In order to setup our environment, we have several Ansible playbooks that help us automating the process.
 
+## Inventory
+The Ansible master node should have the following variables in its environment:
+* `LOGIN` : the user that is used on the iaas and paas machines. For example, giovanni.zotta
+* `FCC_PRIVATE_KEY` : the file where the private key to access the iaas and paas machines is stored.
+* `FCC_PUBLIC_KEY` : the file where the public key related to the private key is stored.
+
 ## Openstack configuration
 First of all, we need to setup the Openstack environment in which we will spin up several instances that will work as worker nodes of the cluster.  
 With the `openstack-setup.yml` playbook, we setup the iaas machine with some basic packages (apt update, python, pip, git) and Openstack with an user (apollo-manager - password apollo), a project (apollo-instances) which has a network, a subnetwork, a router and a security group.

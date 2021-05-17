@@ -1,5 +1,6 @@
 ---
 
+# this is awful, temporary
 - name: Delete workers
   shell: kubectl delete nodes apollo-server{{ item }}
   loop:

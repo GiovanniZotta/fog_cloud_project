@@ -46,7 +46,7 @@
     flavor: ds2G # (2GB RAM 10GB HDD)
     image: ubuntu
     network: apollo_net
-    key_name: giovanni_key
+    key_name: ansible_key
     security_groups: apollo_sec_group
     volumes:
     - apollo_persistent{{ id }}
