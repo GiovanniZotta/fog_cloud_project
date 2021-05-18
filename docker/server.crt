@@ -1,0 +1,52 @@
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number:
+            13:f1:2c:17:74:29:52:c9:3a:4f:19:01:97:4a:8b:57:a2:13:93:c7
+        Signature Algorithm: NULL
+        Issuer: CN = db.graphmarket.com
+        Validity
+            Not Before: May 17 08:58:14 2021 GMT
+            Not After : May 17 08:58:14 2022 GMT
+        Subject: CN = db.graphmarket.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:b2:a8:81:29:7c:30:e7:b7:c1:da:f7:92:f2:5e:
+                    95:e1:d2:9a:40:ea:6f:b3:ad:c0:54:98:4b:3f:95:
+                    80:cf:e9:0c:11:f2:b6:74:40:98:5e:1c:75:db:05:
+                    bd:67:fe:09:12:d0:7e:d4:44:d5:fc:0c:87:b7:7a:
+                    e7:e7:dc:ed:57:4c:d2:14:85:01:de:72:c5:2a:7f:
+                    d6:d2:0c:db:71:fc:87:42:33:d4:83:51:c7:9b:1b:
+                    1c:82:a6:cb:ba:92:b8:bc:10:32:9c:b4:51:08:b6:
+                    69:56:c7:7f:f0:b6:e2:ac:ef:24:77:0f:28:74:c4:
+                    01:14:05:8b:3d:c7:f2:7e:09:34:76:56:29:b2:ba:
+                    da:96:1e:f4:af:03:a9:5f:54:13:d7:38:13:dd:7d:
+                    97:73:01:d9:13:30:a3:4c:0d:0c:dd:e2:60:15:cc:
+                    09:e7:b3:fa:ca:0f:67:2a:bc:f3:24:26:90:29:a6:
+                    4d:c1:cb:b1:77:f0:98:55:69:ba:5a:b4:66:46:07:
+                    25:d4:a5:f9:42:75:cc:63:30:c9:b2:fa:1a:a9:00:
+                    c9:ab:03:0b:19:4e:03:55:d7:26:47:ec:5d:ee:5b:
+                    eb:94:11:50:85:ed:f0:75:44:7f:9b:5a:40:4d:8b:
+                    7d:05:ed:18:d1:b8:72:31:30:10:d2:c6:f2:a9:7b:
+                    a1:89
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: NULL
+-----BEGIN CERTIFICATE-----
+MIICwzCCAasCFFGG+olAzT1qLzq0sj6Lggvro0kMMA0GCSqGSIb3DQEBCwUAMB8x
+HTAbBgNVBAMMFHJvb3QuZ3JhcGhtYXJrZXQuY29tMB4XDTIxMDUxNzA4NTgxNFoX
+DTIyMDUxNzA4NTgxNFowHTEbMBkGA1UEAwwSZGIuZ3JhcGhtYXJrZXQuY29tMIIB
+IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsqiBKXww57fB2veS8l6V4dKa
+QOpvs63AVJhLP5WAz+kMEfK2dECYXhx12wW9Z/4JEtB+1ETV/AyHt3rn59ztV0zS
+FIUB3nLFKn/W0gzbcfyHQjPUg1HHmxscgqbLupK4vBAynLRRCLZpVsd/8LbirO8k
+dw8odMQBFAWLPcfyfgk0dlYpsrralh70rwOpX1QT1zgT3X2XcwHZEzCjTA0M3eJg
+FcwJ57P6yg9nKrzzJCaQKaZNwcuxd/CYVWm6WrRmRgcl1KX5QnXMYzDJsvoaqQDJ
+qwMLGU4DVdcmR+xd7lvrlBFQhe3wdUR/m1pATYt9Be0Y0bhyMTAQ0sbyqXuhiQID
+AQABMA0GCSqGSIb3DQEBCwUAA4IBAQB4OOeC19y8ygyQi6ec7zlQHZN2ApOScwcz
+CTtWcjr5nX/JbqKWlUy0BCbNjDMILJb6Ksr6WZY8pJs73mjWN3z3qiEDJIp+5NXv
+4lWaJe3mlj0Sj0/yJ+CyllbFT29PRhJHIVOJRQuZqKwcmpb2w4gXgtyn+Gvd++6Q
+xH51Om08kzPPKx+39QhzHqnQusmf3PH5IRoeH3bSUKbrdYQzSE2mNmULa28XqDDo
+zpfM9RdGoE0CkBknrf5z/GGjynuqBsqvaU6MUlNozyLRFdZnAs8l0yO+bEbkUL6X
+z8DGmzuJYqumZOHNjPAQp+IrwEPQmmWqHcP4JHaIL0PK3fg3IndZ
+-----END CERTIFICATE-----
