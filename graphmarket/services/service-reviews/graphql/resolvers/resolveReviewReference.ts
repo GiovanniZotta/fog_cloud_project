@@ -2,7 +2,9 @@ import Container from 'typedi';
 import { Review } from '@libs/entities';
 import { ReviewService } from '../../services';
 
-const reviewService: ReviewService = Container.get(ReviewService);
+const reviewService: ReviewService = !process.env.SCRIPT_GEN_GRAPHQL
+  ? Container.get(ReviewService)
+  : (undefined as unknown as ReviewService);
 
 export async function resolveReviewReference(
   reference: Pick<Review, 'id'>,

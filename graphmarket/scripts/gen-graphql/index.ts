@@ -45,6 +45,9 @@ async function readSchemas(): Promise<IGenSchema[]> {
 }
 
 export async function genGraphql(): Promise<void> {
+  // Set env variable to disable components
+  process.env.SCRIPT_GEN_GRAPHQL = 'true';
+
   // Create schema definitions directory
   shell.mkdir('-p', GENERATED_SCHEMA_DIRECTORY);
   // Remove old schema definition files
