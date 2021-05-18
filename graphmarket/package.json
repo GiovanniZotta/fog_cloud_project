@@ -39,6 +39,7 @@
     "start:dev:service:reviews": "npm run __start:dev -- services/service-reviews/bootstrap.ts | npx pino-pretty"
   },
   "devDependencies": {
+    "@apollo/rover": "^0.1.0",
     "@graphql-tools/utils": "^7.9.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/node": "^15.0.2",
