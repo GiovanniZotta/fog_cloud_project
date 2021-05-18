@@ -10,7 +10,7 @@ const gateway = fastify({ logger: { level: config.logger.level } });
 
 // Apollo Gateway
 const apolloGateway = new ApolloGateway(
-  config.graphql.apollo_key && config.graphql.apollo_key !== ''
+  config.graphql.apollo_key !== undefined
     ? undefined
     : {
         serviceList: [
