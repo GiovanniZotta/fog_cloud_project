@@ -4,7 +4,7 @@
 FROM postgres:12.7
 
 # --- ARGS
-ARG CONTEXT=docker
+ARG CONTEXT=docker/database
 
 # --- ENVS
 ENV POSTGRES_DB=graphmarket
