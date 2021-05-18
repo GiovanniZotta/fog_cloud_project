@@ -91,3 +91,8 @@ $ ./docker/docker.sh
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 ```
+
+### Deploy
+```bash
+$ kubectl apply -f ./k8s/graphmarket.yml
+```
