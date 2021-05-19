@@ -3,6 +3,11 @@
 set -o errexit
 
 # Args
+# Default
+PUSH="false"
+PUSH_PREFIX="localhost:5000/"
+
+# Check
 for i in "$@"
 do
     case $i in
@@ -19,14 +24,6 @@ do
         ;;
     esac
 done
-
-# Check args
-if [ -z ${PUSH+x} ]; then
-    PUSH="false"
-fi
-if [ -z ${PUSH_PREFIX+x} ]; then
-    PUSH_PREFIX="localhost:5000/"
-fi
 # END Args
 
 # Images
