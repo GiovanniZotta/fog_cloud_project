@@ -3,6 +3,9 @@
 # --- IMAGE
 FROM postgres:12.7
 
+# --- LABEL
+LABEL maintainer="carlo.corradini@studenti.unitn.it"
+
 # --- ARGS
 ARG CONTEXT=docker/database
 

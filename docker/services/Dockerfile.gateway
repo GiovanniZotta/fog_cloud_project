@@ -3,6 +3,9 @@
 # --- IMAGE
 FROM node:14-alpine
 
+# --- LABEL
+LABEL maintainer="carlo.corradini@studenti.unitn.it"
+
 # --- ARGS
 ARG CONTEXT=graphmarket
 

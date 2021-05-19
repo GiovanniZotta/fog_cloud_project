@@ -3,6 +3,9 @@
 # --- IMAGE
 FROM node:14-alpine
 
+# --- LABEL
+LABEL maintainer="carlo.corradini@studenti.unitn.it"
+
 # --- ARGS
 ARG CONTEXT=graphmarket
 
@@ -27,4 +30,4 @@ RUN npm prune --production
 
 # --- BOOTSTRAP
 EXPOSE 80
-CMD ["npm", "run", "start:prod:service:reviews"]
+CMD ["npm", "run", "start:prod:service:products"]

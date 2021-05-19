@@ -31,7 +31,7 @@ fi
 
 # Images
 images_name=('database' 'gateway' 'service-products' 'service-reviews')
-images_file=('database/Dockerfile.database' 'Dockerfile.gateway' 'Dockerfile.service.products' 'Dockerfile.service.reviews')
+images_file=('database/Dockerfile.database' 'services/Dockerfile.gateway' 'services/Dockerfile.service.products' 'services/Dockerfile.service.reviews')
 # END Images
 
 for ((i = 0; i < ${#images_name[@]}; ++i)); do
