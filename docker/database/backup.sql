@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 13.2
 
--- Started on 2021-05-18 19:08:59
+-- Started on 2021-05-19 17:15:18
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -78,6 +78,11 @@ ALTER TABLE public.review OWNER TO postgres;
 --
 
 COPY public.product (id, name, description, image, created_at, updated_at) FROM stdin;
+9536fa61-eef9-4c82-b9dd-27db8cc94e33	LEGO Ideas Saturn V Apollo NASA	Razzo Spaziale con Veicoli, Set di Costruzioni per Collezionisti di Astronavi con Espositore	https://images-na.ssl-images-amazon.com/images/I/81J40Ja0bCL._AC_SL1500_.jpg	2021-05-19 17:02:11.146433+02	2021-05-19 17:02:11.146433+02
+5be865bf-4905-411e-bd6f-d9f2bb2d443b	MSI GeForce RTX 3090 GAMING X TRIO	\N	https://images-na.ssl-images-amazon.com/images/I/81f6GdD799L._AC_SL1500_.jpg	2021-05-19 17:03:39.117385+02	2021-05-19 17:03:39.117385+02
+fcaee1ae-46f6-4fe9-8b93-882d1fae15b1	1984	Ediz. integrale. Con Segnalibro	https://m.media-amazon.com/images/P/B08QYY4G59.01._SCLZZZZZZZ_SX500_.jpg	2021-05-19 17:05:14.526367+02	2021-05-19 17:05:14.526367+02
+d353bdc9-4268-48f8-9350-525335c964d5	Fire TV Stick 4K Ultra HD	Telecomando vocale Alexa di ultima generazione	\N	2021-05-19 17:06:07.373794+02	2021-05-19 17:06:07.373794+02
+e7828093-9c67-455a-8ef2-96fcdb4aff51	LG OLED83C14LB Smart TV 4K 83"	TV OLED Serie C1 2021 con Processore α9 Gen4, Dolby Vision IQ, Wi-Fi, webOS 6.0, FILMMAKER MODE, Google Assistant e Alexa Integrati, 4 HDMI 2.1, Telecomando Puntatore [Classe di efficienza energetica G]	https://images-na.ssl-images-amazon.com/images/I/81ggHsFZD3L._AC_SL1500_.jpg	2021-05-19 17:07:29.56834+02	2021-05-19 17:07:29.56834+02
 \.
 
 
@@ -88,6 +93,13 @@ COPY public.product (id, name, description, image, created_at, updated_at) FROM 
 --
 
 COPY public.review (id, title, body, created_at, updated_at, product_id) FROM stdin;
+aed7ba93-e741-4eb4-a925-55b4a431c180	To the moon	Grazie a questo razzo sono riuscito ad acquistare dei Dogecoin	2021-05-19 17:08:37.617028+02	2021-05-19 17:08:37.617028+02	9536fa61-eef9-4c82-b9dd-27db8cc94e33
+d4a6cdee-b19c-4db6-9e4f-53caf92ef5ac	LEGO immancabile	\N	2021-05-19 17:09:50.435842+02	2021-05-19 17:09:50.435842+02	9536fa61-eef9-4c82-b9dd-27db8cc94e33
+9e560ebd-7677-4787-aff1-47895a9ed586	Se solo fosse disponibile	Il prodotto con ventole al 100% funziona meglio di un ventilatore	2021-05-19 17:11:09.017639+02	2021-05-19 17:11:09.017639+02	5be865bf-4905-411e-bd6f-d9f2bb2d443b
+53b5c07b-3c9b-45b6-9bed-45aad3712335	Ottimo libro	Un libro immancabile per la mia collezione	2021-05-19 17:12:21.27007+02	2021-05-19 17:12:21.27007+02	fcaee1ae-46f6-4fe9-8b93-882d1fae15b1
+6eebf7f1-7545-4d6e-bdae-303b6bc0f25a	Complottismi ovunque	\N	2021-05-19 17:13:11.018699+02	2021-05-19 17:13:11.018699+02	fcaee1ae-46f6-4fe9-8b93-882d1fae15b1
+25747e3f-7202-4dd3-be44-9f7561f63e90	Il mio assistente personale	Immancabile in ogni parte della mia casa	2021-05-19 17:14:42.187855+02	2021-05-19 17:14:42.187855+02	d353bdc9-4268-48f8-9350-525335c964d5
+b7234e2b-7d14-46b7-91ed-c0de81212c77	Ti spia	Il microfono e' sempre acceso. La nostra privacy oramai non esiste piu'. Rivoglio i miei dati personali	2021-05-19 17:14:42.187855+02	2021-05-19 17:14:42.187855+02	d353bdc9-4268-48f8-9350-525335c964d5
 \.
 
 
@@ -134,7 +146,7 @@ ALTER TABLE ONLY public.review
     ADD CONSTRAINT "FK_26b533e15b5f2334c96339a1f08" FOREIGN KEY (product_id) REFERENCES public.product(id);
 
 
--- Completed on 2021-05-18 19:09:00
+-- Completed on 2021-05-19 17:15:19
 
 --
 -- PostgreSQL database dump complete
