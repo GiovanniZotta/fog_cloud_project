@@ -1,5 +1,10 @@
-# TODO Aggiungi namespace
-# TODO health check
+#
+# NAMESPACE
+#
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: graphmarket
 
 #
 # SECRET
@@ -11,6 +16,7 @@ type: Opaque
 immutable: true
 metadata:
   name: graphmarket-secret
+  namespace: graphmarket
 data:
   # postgres://postgres:password@database-svc:5432/graphmarket
   DATABASE_URL: cG9zdGdyZXM6Ly9wb3N0Z3JlczpwYXNzd29yZEBkYXRhYmFzZS1zdmM6NTQzMi9ncmFwaG1hcmtldA==
@@ -25,6 +31,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: database-pv
+  namespace: graphmarket
   labels:
     type: local
 spec:
@@ -44,6 +51,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: database-pv-claim
+  namespace: graphmarket
 spec:
   storageClassName: manual
   accessModes:
@@ -60,6 +68,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: database-deployment
+  namespace: graphmarket
 spec:
   replicas: 1
   selector:
@@ -72,7 +81,7 @@ spec:
     spec:
       containers:
         - name: database
-          image: localhost:5000/database
+          image: giovannizotta/graphmarket-database
           ports:
             - containerPort: 5432
           #volumeMounts:
@@ -95,6 +104,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway-deployment
+  namespace: graphmarket
 spec:
   replicas: 1
   selector:
@@ -107,7 +117,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: localhost:5000/gateway
+          image: giovannizotta/graphmarket-gateway
           ports:
             - containerPort: 80
           env:
@@ -134,6 +144,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-products-deployment
+  namespace: graphmarket
 spec:
   replicas: 1
   selector:
@@ -146,7 +157,7 @@ spec:
     spec:
       containers:
         - name: service-products
-          image: localhost:5000/service-products
+          image: giovannizotta/graphmarket-svc-products
           ports:
             - containerPort: 80
           env:
@@ -168,6 +179,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-reviews-deployment
+  namespace: graphmarket
 spec:
   replicas: 1
   selector:
@@ -180,7 +192,7 @@ spec:
     spec:
       containers:
         - name: service-reviews
-          image: localhost:5000/service-reviews
+          image: giovannizotta/graphmarket-svc-reviews
           ports:
             - containerPort: 80
           env:
@@ -205,6 +217,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: database-svc
+  namespace: graphmarket
 spec:
   type: ClusterIP
   selector:
@@ -217,6 +230,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gateway-svc
+  namespace: graphmarket
 spec:
   type: NodePort
   selector:
@@ -230,6 +244,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-products-svc
+  namespace: graphmarket
 spec:
   type: ClusterIP
   selector:
@@ -243,6 +258,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-reviews-svc
+  namespace: graphmarket
 spec:
   type: ClusterIP
   selector:
@@ -259,6 +275,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gateway-ingress
+  namespace: graphmarket
 spec:
   rules:
     - http:
