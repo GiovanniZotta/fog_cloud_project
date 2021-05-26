@@ -29,12 +29,14 @@ export class ReviewRepository extends AbstractRepository<Review> {
     // Check if review exists
     await this.repository.findOneOrFail(id);
 
-    // Update and return
-    return this.repository.save({
-      id,
+    // Update
+    await this.repository.update(id, {
       ...(review.title && { title: review.title }),
       ...(review.body && { body: review.body }),
     });
+
+    // Return
+    return this.repository.findOneOrFail(id);
   }
 
   public async delete(id: string): Promise<Review> {

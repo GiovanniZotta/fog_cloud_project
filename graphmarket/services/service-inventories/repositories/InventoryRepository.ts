@@ -29,13 +29,15 @@ export class InventoryRepository extends AbstractRepository<Inventory> {
     // Check if inventory exists
     await this.repository.findOneOrFail(id);
 
-    // Update and return
-    return this.repository.save({
-      product: { id },
+    // Update
+    await this.repository.update(id, {
       ...(inventory.price && { price: inventory.price }),
       ...(inventory.quantity && { quantity: inventory.quantity }),
       ...(inventory.weight && { weight: inventory.weight }),
     });
+
+    // Return
+    return this.repository.findOneOrFail(id);
   }
 
   public async delete(id: string): Promise<Inventory> {

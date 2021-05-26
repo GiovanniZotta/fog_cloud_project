@@ -29,15 +29,15 @@ export class ProductRepository extends AbstractRepository<Product> {
     // Check if product exists
     await this.repository.findOneOrFail(id);
 
-    // Update and return
-    return this.repository.save(
-      this.repository.create({
-        id,
-        ...(product.name && { name: product.name }),
-        ...(product.description && { description: product.description }),
-        ...(product.image && { image: product.image }),
-      }),
-    );
+    // Update
+    await this.repository.update(id, {
+      ...(product.name && { name: product.name }),
+      ...(product.description && { description: product.description }),
+      ...(product.image && { image: product.image }),
+    });
+
+    // Return
+    return this.repository.findOneOrFail(id);
   }
 
   public async delete(id: string): Promise<Product> {
