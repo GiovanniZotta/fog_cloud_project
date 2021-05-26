@@ -12,7 +12,7 @@ export class ReviewResolver {
   @Inject()
   private readonly reviewService!: ReviewService;
 
-  @Mutation(() => Review, { description: `Create a new review` })
+  @Mutation(() => Review, { nullable: true, description: `Create a new review` })
   createReview(@Arg('data', () => ReviewCreateInput) data: ReviewCreateInput): Promise<Review> {
     return this.reviewService.create(data);
   }
@@ -27,7 +27,7 @@ export class ReviewResolver {
     return this.reviewService.read(args);
   }
 
-  @Mutation(() => Review, { description: `Update the review` })
+  @Mutation(() => Review, { nullable: true, description: `Update the review` })
   updateReview(
     @Arg('id', () => GraphQLID) id: string,
     @Arg('data', () => ReviewUpdateInput) data: ReviewUpdateInput,
@@ -35,7 +35,7 @@ export class ReviewResolver {
     return this.reviewService.update(id, data);
   }
 
-  @Mutation(() => Review, { description: `Delete the review` })
+  @Mutation(() => Review, { nullable: true, description: `Delete the review` })
   deleteReview(@Arg('id', () => GraphQLID) id: string): Promise<Review> {
     return this.reviewService.delete(id);
   }

@@ -10,7 +10,7 @@ export class ProductResolver {
   @Inject()
   private readonly reviewService!: ReviewService;
 
-  @FieldResolver(() => [Review], { description: `Product's reviews` })
+  @FieldResolver(() => [Review], { description: `Product reviews` })
   reviews(@Root() product: Product): Promise<Review[]> {
     return this.reviewService.read({ productId: product.id });
   }

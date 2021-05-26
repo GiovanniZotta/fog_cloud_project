@@ -10,7 +10,7 @@ export class ReviewResolver {
   @Inject()
   private readonly productService!: ProductService;
 
-  @FieldResolver(() => Product, { description: `Review's product` })
+  @FieldResolver(() => Product, { description: `Review product` })
   @Directive(`@requires(fields: "productId")`)
   product(@Root() review: Review): Promise<Product | undefined> {
     return this.productService.readOneById(review.productId);
