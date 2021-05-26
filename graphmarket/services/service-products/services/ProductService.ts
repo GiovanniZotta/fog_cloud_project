@@ -3,6 +3,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Service } from 'typedi';
 import { Product } from '@libs/entities';
 import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
+import { ReadProductsArgs } from '../graphql/args';
 import { ProductRepository } from '../repositories';
 import { logger } from '../logger';
 
@@ -26,8 +27,8 @@ export class ProductService {
   }
 
   @Transactional({ propagation: Propagation.SUPPORTS })
-  public read(): Promise<Product[]> {
-    return this.productRepository.read();
+  public read(options: ReadProductsArgs): Promise<Product[]> {
+    return this.productRepository.read(options);
   }
 
   @Transactional({ propagation: Propagation.REQUIRED })

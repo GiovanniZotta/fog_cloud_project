@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { Product } from '@libs/entities';
 import { GraphQLID } from '@libs/graphql';
 import { ProductService } from '../../services';
 import { ProductCreateInput, ProductUpdateInput } from '../inputs';
+import { ReadProductsArgs } from '../args';
 
 @Resolver(Product)
 @Service()
@@ -22,8 +23,8 @@ export class ProductResolver {
   }
 
   @Query(() => [Product], { description: `Return all products` })
-  products(): Promise<Product[]> {
-    return this.productService.read();
+  products(@Args() args: ReadProductsArgs): Promise<Product[]> {
+    return this.productService.read(args);
   }
 
   @Mutation(() => Product, { description: `Update the product` })

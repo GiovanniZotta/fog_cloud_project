@@ -8,8 +8,8 @@ export class ReviewRepository extends AbstractRepository<Review> {
   public create(review: ReviewCreateInput): Promise<Review> {
     return this.repository.save({
       title: review.title,
-      body: review.body,
       product: { id: review.productId },
+      ...(review.body && { body: review.body }),
     });
   }
 
@@ -20,7 +20,7 @@ export class ReviewRepository extends AbstractRepository<Review> {
   public read(options: ReadReviewsArgs = {}): Promise<Review[]> {
     return this.repository.find({
       where: {
-        product: { id: options.productId },
+        ...(options.productId && { product: { id: options.productId } }),
       },
     });
   }
@@ -30,7 +30,11 @@ export class ReviewRepository extends AbstractRepository<Review> {
     await this.repository.findOneOrFail(id);
 
     // Update and return
-    return this.repository.save({ id, title: review.title, body: review.body });
+    return this.repository.save({
+      id,
+      ...(review.title && { title: review.title }),
+      ...(review.body && { body: review.body }),
+    });
   }
 
   public async delete(id: string): Promise<Review> {

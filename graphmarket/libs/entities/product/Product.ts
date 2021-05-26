@@ -18,27 +18,27 @@ import { Review } from '../review';
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   @Index()
-  @Field(() => GraphQLID, { description: `Product's identifier` })
+  @Field(() => GraphQLID, { description: `Product identifier` })
   id!: string;
 
   @Column({ length: 256 })
-  @Field(() => GraphQLNonEmptyString, { description: `Product's name` })
+  @Field(() => GraphQLNonEmptyString, { description: `Product name` })
   name!: string;
 
   @Column({ length: 512, nullable: true, default: undefined })
-  @Field(() => GraphQLNonEmptyString, { nullable: true, description: `Product's description` })
+  @Field(() => GraphQLNonEmptyString, { nullable: true, description: `Product description` })
   description?: string;
 
   @Column({ length: 512, nullable: true, default: undefined })
-  @Field(() => GraphQLURL, { nullable: true, description: `Product's image` })
+  @Field(() => GraphQLURL, { nullable: true, description: `Product image` })
   image?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz', update: false })
-  @Field(() => GraphQLTimestamp, { description: `Product's creation timestamp` })
+  @Field(() => GraphQLTimestamp, { description: `Product creation timestamp` })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  @Field(() => GraphQLTimestamp, { description: `Product's last updated timestamp` })
+  @Field(() => GraphQLTimestamp, { description: `Product last updated timestamp` })
   updatedAt!: Date;
 
   @OneToMany(() => Review, (review) => review.product)

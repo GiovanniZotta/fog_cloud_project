@@ -19,23 +19,23 @@ import { Product } from '../product';
 export class Review {
   @PrimaryGeneratedColumn('uuid')
   @Index()
-  @Field(() => GraphQLID, { description: `Review's identifier` })
+  @Field(() => GraphQLID, { description: `Review identifier` })
   id!: string;
 
   @Column({ length: 64, default: undefined })
-  @Field(() => GraphQLNonEmptyString, { description: `Review's title` })
+  @Field(() => GraphQLNonEmptyString, { description: `Review title` })
   title!: string;
 
   @Column({ length: 256, nullable: true, default: undefined })
-  @Field(() => GraphQLNonEmptyString, { nullable: true, description: `Review's body` })
+  @Field(() => GraphQLNonEmptyString, { nullable: true, description: `Review body` })
   body?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz', update: false })
-  @Field(() => GraphQLTimestamp, { description: `Review's creation timestamp` })
+  @Field(() => GraphQLTimestamp, { description: `Review creation timestamp` })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  @Field(() => GraphQLTimestamp, { description: `Review's last updated timestamp` })
+  @Field(() => GraphQLTimestamp, { description: `Review last updated timestamp` })
   updatedAt!: Date;
 
   @ManyToOne(() => Product, (product) => product.reviews, { nullable: false })
@@ -43,6 +43,6 @@ export class Review {
   product!: Product;
 
   @RelationId((review: Review) => review.product)
-  @Field(() => GraphQLID, { description: `Review's product identifier` })
+  @Field(() => GraphQLID, { description: `Review product identifier` })
   productId!: string;
 }
