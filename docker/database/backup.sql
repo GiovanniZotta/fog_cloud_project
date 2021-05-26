@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 13.2
 
--- Started on 2021-05-19 17:15:18
+-- Started on 2021-05-26 14:11:51
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,7 +27,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 2840 (class 0 OID 0)
+-- TOC entry 2856 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
 --
@@ -36,6 +36,26 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 
 SET default_tablespace = '';
+
+--
+-- TOC entry 199 (class 1259 OID 792102)
+-- Name: inventory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.inventory (
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    product_id uuid NOT NULL,
+    weight integer NOT NULL,
+    price integer NOT NULL,
+    quantity integer NOT NULL,
+    CONSTRAINT "CHK_54a1f9e7e254543a5336b8dab6" CHECK ((weight > 0)),
+    CONSTRAINT "CHK_57c6a3eb67500d319c5716e02c" CHECK ((quantity >= 0)),
+    CONSTRAINT "CHK_a803e868f33f38065e4fe15d22" CHECK ((price > 0))
+);
+
+
+ALTER TABLE public.inventory OWNER TO postgres;
 
 --
 -- TOC entry 198 (class 1259 OID 783919)
@@ -72,7 +92,22 @@ CREATE TABLE public.review (
 ALTER TABLE public.review OWNER TO postgres;
 
 --
--- TOC entry 2834 (class 0 OID 783919)
+-- TOC entry 2850 (class 0 OID 792102)
+-- Dependencies: 199
+-- Data for Name: inventory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.inventory (created_at, updated_at, product_id, weight, price, quantity) FROM stdin;
+2021-05-26 13:04:43.114364+02	2021-05-26 13:04:43.114364+02	5be865bf-4905-411e-bd6f-d9f2bb2d443b	500	99900	0
+2021-05-26 13:04:43.114364+02	2021-05-26 13:04:43.114364+02	9536fa61-eef9-4c82-b9dd-27db8cc94e33	1500	5500	7
+2021-05-26 13:04:43.114364+02	2021-05-26 13:04:43.114364+02	d353bdc9-4268-48f8-9350-525335c964d5	233	4999	98
+2021-05-26 13:04:43.114364+02	2021-05-26 13:04:43.114364+02	e7828093-9c67-455a-8ef2-96fcdb4aff51	25000	199900	1
+2021-05-26 13:04:43.114364+02	2021-05-26 13:04:43.114364+02	fcaee1ae-46f6-4fe9-8b93-882d1fae15b1	750	999	43
+\.
+
+
+--
+-- TOC entry 2849 (class 0 OID 783919)
 -- Dependencies: 198
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -87,7 +122,7 @@ e7828093-9c67-455a-8ef2-96fcdb4aff51	LG OLED83C14LB Smart TV 4K 83"	TV OLED Seri
 
 
 --
--- TOC entry 2833 (class 0 OID 783910)
+-- TOC entry 2848 (class 0 OID 783910)
 -- Dependencies: 197
 -- Data for Name: review; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -104,7 +139,7 @@ b7234e2b-7d14-46b7-91ed-c0de81212c77	Ti spia	Il microfono e' sempre acceso. La n
 
 
 --
--- TOC entry 2707 (class 2606 OID 783917)
+-- TOC entry 2716 (class 2606 OID 783917)
 -- Name: review PK_2e4299a343a81574217255c00ca; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -113,7 +148,16 @@ ALTER TABLE ONLY public.review
 
 
 --
--- TOC entry 2710 (class 2606 OID 783929)
+-- TOC entry 2722 (class 2606 OID 792108)
+-- Name: inventory PK_732fdb1f76432d65d2c136340dc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.inventory
+    ADD CONSTRAINT "PK_732fdb1f76432d65d2c136340dc" PRIMARY KEY (product_id);
+
+
+--
+-- TOC entry 2719 (class 2606 OID 783929)
 -- Name: product PK_bebc9158e480b949565b4dc7a82; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -122,7 +166,16 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 2705 (class 1259 OID 783918)
+-- TOC entry 2724 (class 2606 OID 792116)
+-- Name: inventory UQ_732fdb1f76432d65d2c136340dc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.inventory
+    ADD CONSTRAINT "UQ_732fdb1f76432d65d2c136340dc" UNIQUE (product_id);
+
+
+--
+-- TOC entry 2714 (class 1259 OID 783918)
 -- Name: IDX_2e4299a343a81574217255c00c; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -130,7 +183,15 @@ CREATE INDEX "IDX_2e4299a343a81574217255c00c" ON public.review USING btree (id);
 
 
 --
--- TOC entry 2708 (class 1259 OID 783930)
+-- TOC entry 2720 (class 1259 OID 792109)
+-- Name: IDX_732fdb1f76432d65d2c136340d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IDX_732fdb1f76432d65d2c136340d" ON public.inventory USING btree (product_id);
+
+
+--
+-- TOC entry 2717 (class 1259 OID 783930)
 -- Name: IDX_bebc9158e480b949565b4dc7a8; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -138,7 +199,7 @@ CREATE INDEX "IDX_bebc9158e480b949565b4dc7a8" ON public.product USING btree (id)
 
 
 --
--- TOC entry 2711 (class 2606 OID 783931)
+-- TOC entry 2725 (class 2606 OID 783931)
 -- Name: review FK_26b533e15b5f2334c96339a1f08; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -146,7 +207,16 @@ ALTER TABLE ONLY public.review
     ADD CONSTRAINT "FK_26b533e15b5f2334c96339a1f08" FOREIGN KEY (product_id) REFERENCES public.product(id);
 
 
--- Completed on 2021-05-19 17:15:19
+--
+-- TOC entry 2726 (class 2606 OID 792117)
+-- Name: inventory FK_732fdb1f76432d65d2c136340dc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.inventory
+    ADD CONSTRAINT "FK_732fdb1f76432d65d2c136340dc" FOREIGN KEY (product_id) REFERENCES public.product(id);
+
+
+-- Completed on 2021-05-26 14:11:52
 
 --
 -- PostgreSQL database dump complete

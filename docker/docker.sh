@@ -27,8 +27,8 @@ done
 # END Args
 
 # Images
-images_name=('database' 'gateway' 'service-products' 'service-reviews')
-images_file=('database/Dockerfile.database' 'services/Dockerfile.gateway' 'services/Dockerfile.service.products' 'services/Dockerfile.service.reviews')
+images_name=('graphmarket-database' 'graphmarket-gateway' 'graphmarket-svc-products' 'graphmarket-svc-reviews' 'graphmarket-svc-inventories')
+images_file=('database/Dockerfile.database' 'services/Dockerfile.gateway' 'services/Dockerfile.service.products' 'services/Dockerfile.service.reviews' 'services/Dockerfile.service.inventories')
 # END Images
 
 for ((i = 0; i < ${#images_name[@]}; ++i)); do
