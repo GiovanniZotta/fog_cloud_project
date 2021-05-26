@@ -12,7 +12,7 @@ export class ProductResolver {
   @Inject()
   private readonly productService!: ProductService;
 
-  @Mutation(() => Product, { nullable: true, description: `Create a new product` })
+  @Mutation(() => Product, { description: `Create a new product` })
   createProduct(@Arg('data', () => ProductCreateInput) data: ProductCreateInput): Promise<Product> {
     return this.productService.create(data);
   }
@@ -27,7 +27,7 @@ export class ProductResolver {
     return this.productService.read(args);
   }
 
-  @Mutation(() => Product, { nullable: true, description: `Update the product` })
+  @Mutation(() => Product, { description: `Update the product` })
   updateProduct(
     @Arg('id', () => GraphQLID) id: string,
     @Arg('data', () => ProductUpdateInput) data: ProductUpdateInput,
@@ -35,7 +35,7 @@ export class ProductResolver {
     return this.productService.update(id, data);
   }
 
-  @Mutation(() => Product, { nullable: true, description: `Delete the product` })
+  @Mutation(() => Product, { description: `Delete the product` })
   deleteProduct(@Arg('id', () => GraphQLID) id: string): Promise<Product> {
     return this.productService.delete(id);
   }
