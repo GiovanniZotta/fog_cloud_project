@@ -6,11 +6,12 @@ import { config } from './config';
 import { logger } from './logger';
 
 // Fastify
-const gateway = fastify({ logger: { level: config.logger.level } });
+const gateway = fastify();
 
 // Apollo Gateway
 const apolloGateway = new ApolloGateway(
-  config.graphql.apollo_key !== undefined
+  // FIXME Apollo Key
+  config.graphql.apollo_key !== undefined && config.graphql.apollo_key !== ''
     ? undefined
     : {
         serviceList: [
@@ -21,6 +22,10 @@ const apolloGateway = new ApolloGateway(
           {
             name: config.graphql.services.reviews.name,
             url: config.graphql.services.reviews.url,
+          },
+          {
+            name: config.graphql.services.inventories.name,
+            url: config.graphql.services.inventories.url,
           },
         ],
       },

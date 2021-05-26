@@ -20,6 +20,10 @@ export const config = {
         name: 'reviews',
         url: env.GRAPHQL_SERVICE_REVIEWS_URL,
       },
+      inventories: {
+        name: 'inventories',
+        url: env.GRAPHQL_SERVICE_INVENTORIES_URL,
+      },
     },
   },
   logger: {

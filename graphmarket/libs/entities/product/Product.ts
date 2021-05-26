@@ -4,6 +4,7 @@ import {
   Entity,
   Index,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
   UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 import { Directive, Field, GraphQLTimestamp, ObjectType } from 'type-graphql';
 import { GraphQLID, GraphQLNonEmptyString, GraphQLURL } from '@libs/graphql';
 import { Review } from '../review';
+import { Inventory } from '../inventory';
 
 @Entity('product')
 @ObjectType('Product')
@@ -40,6 +42,12 @@ export class Product {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLTimestamp, { description: `Product last updated timestamp` })
   updatedAt!: Date;
+
+  @OneToOne(() => Inventory, (inventory) => inventory.product)
+  inventory!: Inventory;
+
+  @RelationId((product: Product) => product.inventory)
+  inventoryId!: string;
 
   @OneToMany(() => Review, (review) => review.product)
   reviews!: Review[];

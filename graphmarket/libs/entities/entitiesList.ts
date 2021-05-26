@@ -1,4 +1,5 @@
+import { Inventory } from './inventory';
 import { Product } from './product';
 import { Review } from './review';
 
-export const entitiesList = [Product, Review];
+export const entitiesList = [Inventory, Product, Review];
