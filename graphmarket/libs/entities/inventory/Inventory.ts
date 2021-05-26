@@ -25,7 +25,7 @@ import { Product } from '../product';
 @ObjectType('Inventory')
 @Directive(`@key(fields: "productId")`)
 export class Inventory {
-  @OneToOne(() => Product, { primary: true })
+  @OneToOne(() => Product, { primary: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @Index()
   @JoinColumn({ name: 'product_id' })
   product!: Product;
@@ -39,7 +39,7 @@ export class Inventory {
   weight!: number;
 
   @Column()
-  @Field(() => GraphQLUSCurrency, { description: `Product price` })
+  @Field(() => GraphQLUSCurrency, { description: `Product price in cents` })
   price!: number;
 
   @Column()

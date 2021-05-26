@@ -1,7 +1,8 @@
 import { Propagation, Transactional } from 'typeorm-transactional-cls-hooked';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { Product } from '@libs/entities';
+import { InventoryService } from '@services/service-inventories/services';
 import { ProductCreateInput, ProductUpdateInput } from '../graphql/inputs';
 import { ReadProductsArgs } from '../graphql/args';
 import { ProductRepository } from '../repositories';
@@ -12,9 +13,21 @@ export class ProductService {
   @InjectRepository()
   private readonly productRepository!: ProductRepository;
 
+  @Inject()
+  private readonly inventoryService!: InventoryService;
+
   @Transactional({ propagation: Propagation.REQUIRED })
   public async create(product: ProductCreateInput): Promise<Product> {
+    // Create product
     const newProduct: Product = await this.productRepository.create(product);
+
+    // Create inventory
+    await this.inventoryService.create({
+      productId: newProduct.id,
+      price: product.price,
+      quantity: product.quantity,
+      weight: product.weight,
+    });
 
     logger.info(`Created product ${newProduct.id}`);
 

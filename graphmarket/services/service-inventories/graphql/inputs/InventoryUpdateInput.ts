@@ -8,7 +8,7 @@ export class InventoryUpdateInput {
   @IsPositive()
   weight?: number;
 
-  @Field(() => GraphQLPositiveInt, { nullable: true, description: `Product price` })
+  @Field(() => GraphQLPositiveInt, { nullable: true, description: `Product price in cents` })
   @IsPositive()
   price?: number;
 

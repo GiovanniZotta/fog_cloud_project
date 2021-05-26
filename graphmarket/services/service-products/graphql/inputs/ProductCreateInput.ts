@@ -1,7 +1,12 @@
 import { URL } from 'url';
 import { Field, InputType } from 'type-graphql';
 import { Length } from 'class-validator';
-import { GraphQLNonEmptyString, GraphQLURL } from '@libs/graphql/scalars';
+import {
+  GraphQLNonEmptyString,
+  GraphQLNonNegativeInt,
+  GraphQLPositiveInt,
+  GraphQLURL,
+} from '@libs/graphql/scalars';
 
 @InputType('ProductCreateInput', { description: `Product create input` })
 export class ProductCreateInput {
@@ -15,4 +20,13 @@ export class ProductCreateInput {
 
   @Field(() => GraphQLURL, { nullable: true, description: `Product's image` })
   image?: URL;
+
+  @Field(() => GraphQLPositiveInt, { description: `Product weight in grams` })
+  weight!: number;
+
+  @Field(() => GraphQLPositiveInt, { description: `Product price in cents` })
+  price!: number;
+
+  @Field(() => GraphQLNonNegativeInt, { description: `Product quantity` })
+  quantity!: number;
 }
