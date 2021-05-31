@@ -8,14 +8,16 @@ const inventoryService: InventoryService = !process.env.SCRIPT_GEN_GRAPHQL
   : (undefined as unknown as InventoryService);
 
 export async function resolveProductReference(
-  reference: Pick<Product, 'id'>,
+  reference: Pick<Product, 'id' | 'price' | 'weight'>,
 ): Promise<Product | undefined> {
   const inventory: Inventory | undefined = await inventoryService.readOneById(reference.id);
 
   if (!inventory) return undefined;
 
-  return Object.assign(new Product(), {
-    ...reference,
-    ...inventory,
+  return Object.assign(new Product(), <Product>{
+    id: reference.id,
+    price: reference.price,
+    weight: reference.weight,
+    quantity: inventory.quantity,
   });
 }

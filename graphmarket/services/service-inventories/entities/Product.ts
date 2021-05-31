@@ -1,10 +1,5 @@
 import { Directive, Field, ObjectType } from 'type-graphql';
-import {
-  GraphQLID,
-  GraphQLNonNegativeInt,
-  GraphQLPositiveInt,
-  GraphQLUSCurrency,
-} from '@libs/graphql';
+import { GraphQLID, GraphQLNonNegativeInt, GraphQLPositiveInt } from '@libs/graphql';
 import { Product as ProductBase } from '@libs/entities';
 
 @ObjectType('Product')
@@ -19,7 +14,7 @@ export class Product implements Partial<ProductBase> {
   @Directive(`@external`)
   weight!: number;
 
-  @Field(() => GraphQLUSCurrency, { description: `Product price` })
+  @Field(() => GraphQLPositiveInt, { description: `Product price in cents` })
   @Directive(`@external`)
   price!: number;
 

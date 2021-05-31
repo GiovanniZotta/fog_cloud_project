@@ -1,12 +1,12 @@
 import { Arg, Directive, FieldResolver, Resolver, Root } from 'type-graphql';
 import { Service } from 'typedi';
-import { GraphQLPositiveInt, GraphQLUSCurrency } from '@libs/graphql';
+import { GraphQLNonNegativeInt, GraphQLPositiveInt } from '@libs/graphql';
 import { Product } from '../../entities';
 
 @Resolver(() => Product)
 @Service()
 export class ProductResolver {
-  @FieldResolver(() => GraphQLUSCurrency, {
+  @FieldResolver(() => GraphQLNonNegativeInt, {
     nullable: true,
     description: `Product shipping estimate`,
   })
