@@ -5,14 +5,10 @@ import { ReadInventoriesArgs } from '../graphql/args';
 
 @EntityRepository(Inventory)
 export class InventoryRepository extends AbstractRepository<Inventory> {
-  public create(
-    inventory: Pick<Inventory, 'productId' | 'weight' | 'price' | 'quantity'>,
-  ): Promise<Inventory> {
+  public create(inventory: Pick<Inventory, 'productId' | 'quantity'>): Promise<Inventory> {
     return this.repository.save({
       product: { id: inventory.productId },
-      price: inventory.price,
       quantity: inventory.quantity,
-      weight: inventory.weight,
     });
   }
 
@@ -31,9 +27,7 @@ export class InventoryRepository extends AbstractRepository<Inventory> {
 
     // Update
     await this.repository.update(id, {
-      ...(inventory.price && { price: inventory.price }),
       ...(inventory.quantity && { quantity: inventory.quantity }),
-      ...(inventory.weight && { weight: inventory.weight }),
     });
 
     // Return

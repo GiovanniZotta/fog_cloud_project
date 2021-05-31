@@ -27,6 +27,6 @@ export class ProductCreateInput {
   @Field(() => GraphQLPositiveInt, { description: `Product price in cents` })
   price!: number;
 
-  @Field(() => GraphQLNonNegativeInt, { description: `Product quantity` })
+  @Field(() => GraphQLNonNegativeInt, { description: `Product quantity`, defaultValue: 0 })
   quantity!: number;
 }

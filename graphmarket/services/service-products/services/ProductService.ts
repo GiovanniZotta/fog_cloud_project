@@ -24,9 +24,7 @@ export class ProductService {
     // Create inventory
     await this.inventoryService.create({
       productId: newProduct.id,
-      price: product.price,
       quantity: product.quantity,
-      weight: product.weight,
     });
 
     logger.info(`Created product ${newProduct.id}`);

@@ -10,7 +10,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Directive, Field, GraphQLTimestamp, ObjectType } from 'type-graphql';
-import { GraphQLID, GraphQLNonEmptyString, GraphQLURL } from '@libs/graphql';
+import {
+  GraphQLID,
+  GraphQLNonEmptyString,
+  GraphQLPositiveInt,
+  GraphQLURL,
+  GraphQLUSCurrency,
+} from '@libs/graphql';
 import { Review } from '../review';
 import { Inventory } from '../inventory';
 
@@ -34,6 +40,14 @@ export class Product {
   @Column({ length: 512, nullable: true, default: undefined })
   @Field(() => GraphQLURL, { nullable: true, description: `Product image` })
   image?: string;
+
+  @Column()
+  @Field(() => GraphQLPositiveInt, { description: `Product weight in grams` })
+  weight!: number;
+
+  @Column()
+  @Field(() => GraphQLUSCurrency, { description: `Product price in cents` })
+  price!: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz', update: false })
   @Field(() => GraphQLTimestamp, { description: `Product creation timestamp` })

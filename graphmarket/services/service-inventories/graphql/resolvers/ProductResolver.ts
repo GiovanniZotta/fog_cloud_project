@@ -1,4 +1,4 @@
-import { Arg, FieldResolver, Resolver, Root } from 'type-graphql';
+import { Arg, Directive, FieldResolver, Resolver, Root } from 'type-graphql';
 import { Service } from 'typedi';
 import { GraphQLPositiveInt, GraphQLUSCurrency } from '@libs/graphql';
 import { Product } from '../../entities';
@@ -10,8 +10,9 @@ export class ProductResolver {
     nullable: true,
     description: `Product shipping estimate`,
   })
+  @Directive(`@requires(fields: "price weight")`)
   async shippingEstimate(
-    @Arg('quantity', () => GraphQLPositiveInt, { description: `Quantity of products to ship` })
+    @Arg('quantity', () => GraphQLPositiveInt, { description: `Quantity of product to ship` })
     quantity: number,
     @Root()
     product: Product,

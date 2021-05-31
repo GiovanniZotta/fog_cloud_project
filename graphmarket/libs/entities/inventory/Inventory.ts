@@ -35,14 +35,6 @@ export class Inventory {
   productId!: string;
 
   @Column()
-  @Field(() => GraphQLPositiveInt, { description: `Product weight in grams` })
-  weight!: number;
-
-  @Column()
-  @Field(() => GraphQLUSCurrency, { description: `Product price in cents` })
-  price!: number;
-
-  @Column()
   @Field(() => GraphQLNonNegativeInt, { description: `Product quantity` })
   quantity!: number;
 

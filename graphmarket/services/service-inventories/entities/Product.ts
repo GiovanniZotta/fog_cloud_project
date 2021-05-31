@@ -16,9 +16,11 @@ export class Product implements Partial<ProductBase> {
   id!: string;
 
   @Field(() => GraphQLPositiveInt, { description: `Product weight in grams` })
+  @Directive(`@external`)
   weight!: number;
 
   @Field(() => GraphQLUSCurrency, { description: `Product price` })
+  @Directive(`@external`)
   price!: number;
 
   @Field(() => GraphQLNonNegativeInt, { description: `Product quantity` })

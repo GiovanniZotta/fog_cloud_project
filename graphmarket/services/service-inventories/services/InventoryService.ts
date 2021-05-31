@@ -13,9 +13,7 @@ export class InventoryService {
   private readonly inventoryRepository!: InventoryRepository;
 
   @Transactional({ propagation: Propagation.REQUIRED })
-  public async create(
-    inventory: Pick<Inventory, 'productId' | 'weight' | 'price' | 'quantity'>,
-  ): Promise<Inventory> {
+  public async create(inventory: Pick<Inventory, 'productId' | 'quantity'>): Promise<Inventory> {
     const newInventory: Inventory = await this.inventoryRepository.create(inventory);
 
     logger.info(`Created inventory ${newInventory.productId}`);

@@ -1,6 +1,6 @@
 import { Field, InputType } from 'type-graphql';
 import { Length } from 'class-validator';
-import { GraphQLNonEmptyString, GraphQLURL } from '@libs/graphql/scalars';
+import { GraphQLNonEmptyString, GraphQLPositiveInt, GraphQLURL } from '@libs/graphql/scalars';
 
 @InputType('ProductUpdateInput', { description: `Product update input` })
 export class ProductUpdateInput {
@@ -14,4 +14,10 @@ export class ProductUpdateInput {
 
   @Field(() => GraphQLURL, { nullable: true, description: `Product's image` })
   image?: string;
+
+  @Field(() => GraphQLPositiveInt, { nullable: true, description: `Product weight in grams` })
+  weight?: number;
+
+  @Field(() => GraphQLPositiveInt, { nullable: true, description: `Product price in cents` })
+  price?: number;
 }

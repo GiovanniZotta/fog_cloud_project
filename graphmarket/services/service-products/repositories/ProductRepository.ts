@@ -8,6 +8,8 @@ export class ProductRepository extends AbstractRepository<Product> {
   public create(product: ProductCreateInput): Promise<Product> {
     return this.repository.save({
       name: product.name,
+      price: product.price,
+      weight: product.weight,
       ...(product.description && { description: product.description }),
       ...(product.image && { image: product.image.href }),
     });
@@ -34,6 +36,8 @@ export class ProductRepository extends AbstractRepository<Product> {
       ...(product.name && { name: product.name }),
       ...(product.description && { description: product.description }),
       ...(product.image && { image: product.image }),
+      ...(product.price && { price: product.price }),
+      ...(product.weight && { weight: product.weight }),
     });
 
     // Return
