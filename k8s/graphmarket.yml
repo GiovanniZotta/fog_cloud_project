@@ -110,12 +110,12 @@ spec:
   selector:
     matchLabels:
       app: gateway
+  strategy: 
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: gateway
-    strategy: 
-      type: RollingUpdate
     spec:
       containers:
         - name: gateway
@@ -152,12 +152,12 @@ spec:
   selector:
     matchLabels:
       app: service-products
+  strategy: 
+    type: Recreate
   template:
     metadata:
       labels:
         app: service-products
-    strategy: 
-      type: Recreate
     spec:
       containers:
         - name: service-products
@@ -189,12 +189,12 @@ spec:
   selector:
     matchLabels:
       app: service-reviews
+  strategy: 
+    type: Recreate
   template:
     metadata:
       labels:
         app: service-reviews
-    strategy: 
-      type: Recreate
     spec:
       containers:
         - name: service-reviews
@@ -226,12 +226,12 @@ spec:
   selector:
     matchLabels:
       app: service-inventories
+  strategy: 
+    type: Recreate
   template:
     metadata:
       labels:
         app: service-inventories
-    strategy: 
-      type: Recreate
     spec:
       containers:
         - name: service-inventories
