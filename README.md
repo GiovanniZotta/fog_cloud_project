@@ -72,13 +72,13 @@ $ ./docker/docker.sh
 
   Default: **false**
 
-  Push the images to the local registry.
+  Push the images to the registry.
 
 - --push-prefix=<value>
 
   Default: **localhost:5000/**
 
-  Prefix for local registry images.
+  Prefix for registry images.
 
 ## Kubernetes
 
