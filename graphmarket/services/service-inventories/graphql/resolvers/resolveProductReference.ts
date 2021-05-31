@@ -14,9 +14,8 @@ export async function resolveProductReference(
 
   if (!inventory) return undefined;
 
-  // TODO try with return object
-  return Object.assign(new Product(), <Product>{
-    id: reference.id,
-    quantity: inventory.quantity,
+  return Object.assign(new Product(), {
+    ...reference,
+    ...inventory,
   });
 }
