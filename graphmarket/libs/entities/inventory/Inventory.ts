@@ -10,17 +10,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Directive, Field, GraphQLTimestamp, ObjectType } from 'type-graphql';
-import {
-  GraphQLID,
-  GraphQLNonNegativeInt,
-  GraphQLPositiveInt,
-  GraphQLUSCurrency,
-} from '@libs/graphql';
+import { GraphQLID, GraphQLNonNegativeInt } from '@libs/graphql';
 import { Product } from '../product';
 
 @Entity('inventory')
-@Check(`"weight" > 0`)
-@Check(`"price" > 0`)
 @Check(`"quantity" >= 0`)
 @ObjectType('Inventory')
 @Directive(`@key(fields: "productId")`)

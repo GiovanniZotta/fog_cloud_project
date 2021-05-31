@@ -1,4 +1,5 @@
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -21,6 +22,8 @@ import { Review } from '../review';
 import { Inventory } from '../inventory';
 
 @Entity('product')
+@Check(`"weight" > 0`)
+@Check(`"price" > 0`)
 @ObjectType('Product')
 @Directive(`@key(fields: "id")`)
 export class Product {
