@@ -114,6 +114,8 @@ spec:
     metadata:
       labels:
         app: gateway
+    strategy: 
+      type: RollingUpdate
     spec:
       containers:
         - name: gateway
@@ -154,6 +156,8 @@ spec:
     metadata:
       labels:
         app: service-products
+    strategy: 
+      type: Recreate
     spec:
       containers:
         - name: service-products
@@ -189,6 +193,8 @@ spec:
     metadata:
       labels:
         app: service-reviews
+    strategy: 
+      type: Recreate
     spec:
       containers:
         - name: service-reviews
@@ -224,6 +230,8 @@ spec:
     metadata:
       labels:
         app: service-inventories
+    strategy: 
+      type: Recreate
     spec:
       containers:
         - name: service-inventories
