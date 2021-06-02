@@ -1,0 +1,24 @@
+---
+# vars file for openstack-setup
+project_auth_settings:
+      auth_url: http://10.235.1.207/identity
+      username: apollo-manager
+      password: apollo
+      project_domain_id: default
+      project_name: apollo-instances
+      user_domain_id: default
+
+eval_auth_settings:
+      auth_url: http://10.235.1.207/identity
+      username: eval
+      password: eval
+      project_domain_id: default
+      user_domain_id: default
+
+admin_auth_settings:
+      auth_url: http://10.235.1.207/identity
+      username: admin
+      password: password
+      project_domain_id: default
+      project_name: admin
+      user_domain_id: default

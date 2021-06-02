@@ -1,0 +1,19 @@
+---
+
+- hosts: openstack
+  roles:
+    - openstack-retrieve-instances
+
+- hosts: instances
+  roles:
+    - common
+    - install-worker-node
+    
+# - name: Echo hostname
+#   hosts: instances
+#   tasks:
+#   - shell: hostname
+#     register: result
+
+#   - debug:
+#       var: result

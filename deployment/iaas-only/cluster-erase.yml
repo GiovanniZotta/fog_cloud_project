@@ -1,0 +1,12 @@
+---
+- hosts: openstack
+  roles:
+    - openstack-retrieve-instances
+
+- hosts: master
+  roles:
+    - master-erase
+
+- hosts: openstack
+  roles:
+    - openstack-erase

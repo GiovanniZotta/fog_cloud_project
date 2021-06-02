@@ -1,0 +1,43 @@
+kubeadm init --apiserver-advertise-address=10.235.1.107 --pod-network-cidr=10.244.0.0/16
+sudo ip route add 172.24.4.0/24 via 10.235.1.207
+
+
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+sudo tshark -V --color -i ens3 -d udp.port=8472,vxlan -f "port 8472"
+sudo tcpdump -n -i ens3 port not 22 and port not 6443 and not arp and port not 8278 and port not 8291 and port not 53
+sudo watch --interval=5 'sudo iptables -nvL | grep -v "0     0"'
+curl 10.244.1.2:8000
+
+=========================================================================================================================
+
+Master in instance
+
+sudo kubeadm init --apiserver-advertise-address=${IP} --pod-network-cidr=10.244.0.0/16
+
+sudo kubeadm join 10.11.12.89:6443 --token 86op0d.uafnbgdsz64hpxhs --discovery-token-ca-cert-hash sha256:70f3cceb613620164717abf6a68482ec2e7031c3d588394f7c35b0ab50892bad
+
+
+
+curl 'http://10.96.150.142/graphql' \
+  -X POST \
+  -H 'content-type: application/json' \
+  --data '{
+    "query": "{products { id, name, createdAt, reviews { id, title, body, createdAt}}}"
+  }' | jq .
+
+
+  query {
+    products {
+      id
+      name
+      createdAt
+      reviews {
+        id
+        title
+        body
+        createdAt
+      }
+    }
+  }

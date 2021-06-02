@@ -1,0 +1,9 @@
+---
+# vars file for ubuntu-image
+project_auth_settings:
+      auth_url: http://10.235.1.207/identity
+      username: apollo-manager
+      password: apollo
+      project_domain_id: default
+      project_name: apollo-instances
+      user_domain_id: default

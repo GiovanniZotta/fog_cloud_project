@@ -1,0 +1,36 @@
+---
+
+- name: Update repository and Upgrade packages
+  become: yes
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Install pip
+  become: yes
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: Upgrade pip
+  pip:
+    name: pip
+    state: latest
+
+- name: Install git
+  become: yes
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+# Add the eval user required by the project
+# Password generate with ‘python3 -c 'import crypt; print(crypt.crypt("eval", "$1$B2Slg7Uy6E$"))'‘
+# - name: Add the eval user
+#   become: yes
+#   user:
+#     name: eval
+#     password: "{{ 'eval' | password_hash('sha512') }}"
+#     shell: /bin/bash
+#     append: yes
+

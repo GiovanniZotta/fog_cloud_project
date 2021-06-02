@@ -1,0 +1,200 @@
+---
+# tasks file for openstack-setup
+- name: Installing OpenStackSDK
+  become: yes
+  pip:
+    name: openstacksdk
+
+- name: Authenticate to the server as admin
+  os_auth:
+    auth: "{{ admin_auth_settings }}"
+
+- name: Add a project to Openstack
+  os_project:
+    auth: "{{ admin_auth_settings }}"
+    endpoint_type: admin
+    state: present
+    name: "{{ project_auth_settings.project_name }}"
+    domain: default
+    description: A scalable federated architecture with Apollo
+    enabled: True
+
+- name: Create the manager user to access the project
+  os_user:
+    auth: "{{ admin_auth_settings }}"
+    state: present
+    name: "{{ project_auth_settings.username }}"
+    password: "{{ project_auth_settings.password }}"
+    email: demo@example.com
+    default_project: "{{ project_auth_settings.project_name }}"
+    domain: default
+    enabled: True
+  no_log: true
+
+- name: Grant the admin role on the apollo-instances project to the yet created user
+  os_user_role:
+    auth: "{{ admin_auth_settings }}"
+    state: present
+    user: "{{ project_auth_settings.username }}"
+    role: admin
+    project: "{{ project_auth_settings.project_name }}"
+
+- name: Add the eval user to openstack
+  os_user:
+    auth: "{{ admin_auth_settings }}"
+    state: present
+    name: "{{ eval_auth_settings.username }}"
+    password: "{{ eval_auth_settings.password }}"
+    email: eval@example.com
+    domain: default
+    enabled: True
+  no_log: true
+
+- name: Grant the read-only role on the Apollo project to the eval user
+  os_user_role:
+    auth: "{{ admin_auth_settings }}"
+    state: present
+    user: "{{ eval_auth_settings.username }}"
+    role: reader
+    project: "{{ project_auth_settings.project_name }}"
+
+- name: Authenticate to the server, as project admin
+  os_auth:
+    auth: "{{ project_auth_settings }}"
+
+# Replace it with auth
+- name: Create apollo_net
+  os_network:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_net
+
+- name: Create the subnet
+  os_subnet:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    network_name: apollo_net
+    name: apollo_subnet
+    cidr: 10.11.12.0/24
+    dns_nameservers:
+       - 208.67.222.222
+       - 208.67.220.220
+
+- name: Create the subnet router
+  os_router:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_router
+    network: public
+    interfaces:
+      - apollo_subnet
+
+- name: Create .ssh directory in eval user home
+  become: yes
+  file:
+    path: /home/eval/.ssh
+    state: directory
+    mode: '0777'
+
+- name: Copy the public key to the remote host
+  copy:
+    src: "{{lookup('env','FCC_PUBLIC_KEY')}}"
+    dest: /home/{{ ansible_user }}/pubkey.pub
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Import ansible_key
+  become: yes
+  os_keypair:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: ansible_key
+    public_key_file: /home/{{ ansible_user }}/pubkey.pub
+    
+- name: Create SSH keypair
+  os_keypair:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_key
+  register: keypair_value  
+
+- name: Copy SSH key to eval user .ssh folder
+  become: yes
+  copy:
+    content: "{{ keypair_value['key']['private_key'] }}"
+    dest: "/home/eval/.ssh/id_rsa"
+
+- name: Copy SSH key to eval user .ssh folder
+  become: yes
+  copy:
+    content: "{{ keypair_value['key']['public_key'] }}"
+    dest: "/home/eval/.ssh/id_rsa.pub"
+
+- name: Save the private key to local if it has been updated
+  local_action:
+    module: copy
+    content: "{{ keypair_value['key']['private_key'] }}"
+    dest: "{{ lookup('env','HOME') }}/apollo_key.pem"
+  when: keypair_value.changed
+
+- name: Create the security group
+  os_security_group:
+    auth: "{{ project_auth_settings }}"
+    state: present
+    name: apollo_sec_group
+    description: security group for Apollo
+
+- name: Open all TCP ports in ingress (hmmm... doesn't look like a good idea, but we'll work with this)
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    direction: ingress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Open all UDP ports in ingress (hmmm... doesn't look like a good idea, but we'll work with this)
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    direction: ingress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Add the all TCP egress rule
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    direction: egress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Add the all UDP egress rule
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    direction: egress
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+
+- name: Add the ICMP egress rule
+  os_security_group_rule:
+    auth: "{{ project_auth_settings }}"
+    security_group: apollo_sec_group
+    protocol: icmp
+    port_range_min: -1
+    port_range_max: -1
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes

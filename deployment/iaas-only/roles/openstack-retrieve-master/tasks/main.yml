@@ -1,0 +1,60 @@
+---
+- name: get apollo-manager info
+  os_user_info:
+    auth: "{{ admin_auth_settings }}"
+    name: apollo-manager
+  register: manager
+
+- debug:
+    msg: "No project manager was found. Run openstack-setup.yml first"
+  when: not manager.openstack_users
+
+- name: End the host if project auth is not valid
+  meta: end_host
+  when: not manager.openstack_users
+
+- name: Retrieve information about the master
+  os_server_info:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_master*
+  register: os_master
+
+- name: Get ip address
+  set_fact:
+    master_ip: '{{os_master.openstack_servers | map(attribute="interface_ip") | list}}'
+
+- debug:
+    var: master_ip
+
+- name: Add hosts to instances inventory group
+  add_host:
+    name: "{{ item }}"
+    groups: master
+    ansible_host: "{{ item }}"
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q iaas"'
+  loop: "{{ master_ip }}"
+
+- name: Retrieve information about existing servers
+  os_server_info:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_worker*
+  register: os_workers
+
+- name: Get ip addresses list
+  set_fact:
+    worker_ip_list: '{{os_workers.openstack_servers | map(attribute="interface_ip") | list}}'
+
+- debug:
+    var: worker_ip_list
+
+- name: Add hosts to instances inventory group
+  add_host:
+    name: "{{ item }}"
+    groups: workers
+    ansible_host: "{{ item }}"
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q iaas"'
+  loop: "{{ worker_ip_list }}"
