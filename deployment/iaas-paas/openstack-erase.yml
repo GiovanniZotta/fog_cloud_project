@@ -1,0 +1,6 @@
+---
+
+- hosts: openstack
+  roles:
+    - openstack-erase
+

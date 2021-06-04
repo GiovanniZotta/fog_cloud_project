@@ -1,0 +1,30 @@
+---
+
+- name: Add node ip to kubeadm args
+  become: yes
+  shell: echo "KUBELET_KUBEADM_ARGS=\"--network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.4.1 --node-ip={{ hostvars[inventory_hostname]['ansible_host'] }}\"" > /var/lib/kubelet/kubeadm-flags.env
+
+- name: Create floating ip interface
+  become: yes
+  shell:
+    cmd: |
+      cat > /etc/netplan/60-floating-ip.yaml <<EOF
+      network:
+          version: 2
+          ethernets:
+              ens3:
+                  addresses:
+                  - {{ hostvars[inventory_hostname]['ansible_host'] }}/32
+      EOF
+
+- name: Apply new interface
+  become: yes
+  shell: netplan apply
+
+- name: Restart system daemons and kubelet
+  become: yes
+  shell: systemctl daemon-reload && systemctl restart kubelet
+
+- name: Reboot the machine
+  become: yes
+  reboot:

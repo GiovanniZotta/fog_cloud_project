@@ -1,0 +1,12 @@
+---
+- hosts: openstack
+  roles:
+    - openstack-retrieve-instances
+
+- hosts: master
+  roles:
+    - test-instances
+
+- hosts: workers
+  roles:
+    - test-instances

@@ -1,0 +1,18 @@
+sudo kubeadm join 10.235.1.107:6443 --token vdoker.jblukv5zw9cxsajp --discovery-token-ca-cert-hash sha256:6b5f8f42ac884c8f33a40f5a25d5b0b71cc91d94d90e8cdbb342b314837bf110
+
+sudo vim /var/lib/kubelet/kubeadm-flags.env -> KUBELET_KUBEADM_ARGS="--network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.4.1 --node-ip=172.24.4.159"
+
+sudo vim /etc/netplan/60-floating-ip.yaml ->
+network:
+    version: 2
+    ethernets:
+        ens3:
+            addresses:
+            - 172.24.4.159/32
+
+sudo netplan apply
+
+sudo systemctl daemon-reload && sudo systemctl restart kubelet
+
+sudo systemctl status kubelet
+ip --brief addr

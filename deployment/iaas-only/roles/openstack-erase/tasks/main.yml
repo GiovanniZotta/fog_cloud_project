@@ -1,0 +1,171 @@
+---
+# tasks file for openstack-erase
+- name: get apollo-manager info
+  os_user_info:
+    auth: "{{ admin_auth_settings }}"
+    name: apollo-manager
+  register: manager
+
+- debug:
+    msg: "No project manager was found. Run openstack-setup.yml first"
+  when: not manager.openstack_users
+
+- name: End the host if project auth is not valid
+  meta: end_host
+  when: not manager.openstack_users
+
+- name: Authenticate to the server as project admin
+  os_auth:
+    auth: "{{ project_auth_settings }}"
+
+- name: Retrieve all apollo workers information
+  os_server_info:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_worker*
+  register: os_workers
+
+- name: Get all worker names
+  set_fact:
+    worker_names: "{{ os_workers.openstack_servers | map(attribute='hostname') | list }}"
+  when: os_workers.openstack_servers
+
+- name: Get all worker ids
+  set_fact:
+    workers_ids: "{{ ids | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
+  with_items: "{{ worker_names }}"
+  when: worker_names is defined
+
+- name: Set ids to empty list if there are no servers
+  set_fact:
+    workers_ids: []
+  when: worker_names is not defined
+
+- debug:
+    var: workers_ids
+
+- name: Remove the floating IP for each worker
+  os_floating_ip:
+    auth: "{{ project_auth_settings }}"
+    server: "apollo_worker{{ item }}"
+    state: absent
+  with_items: "{{ workers_ids }}"
+
+- name: Delete every worker machine
+  os_server:
+    auth: "{{ project_auth_settings }}"
+    name: "apollo_worker{{ item }}"
+    state: absent
+  with_items: "{{ workers_ids }}"
+
+- name: Delete every worker persistent volume
+  os_volume:
+    auth: "{{ project_auth_settings }}"
+    display_name: "apollo_persistent_worker{{ item }}"
+    state: absent
+  with_items: "{{ workers_ids }}"
+
+- name: Retrieve master information
+  os_server_info:
+    auth: "{{ project_auth_settings }}"
+    server: apollo_master*
+  register: os_master
+
+- name: Get the master name
+  set_fact:
+    master_name: "{{ os_master.openstack_servers | map(attribute='hostname') | list }}"
+  when: os_master.openstack_servers
+
+- name: Get master id
+  set_fact:
+    master_id: "{{ ids | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
+  with_items: "{{ master_name }}"
+  when: master_name is defined
+
+- name: Set ids to empty list if there is no master
+  set_fact:
+    master_id: []
+  when: master_name is not defined
+
+- debug:
+    var: master_id
+
+- name: Remove the floating IP of the master
+  os_floating_ip:
+    auth: "{{ project_auth_settings }}"
+    server: "apollo_master{{ item }}"
+    state: absent
+  with_items: "{{ master_id }}"
+
+- name: Delete the master machine
+  os_server:
+    auth: "{{ project_auth_settings }}"
+    name: "apollo_master{{ item }}"
+    state: absent
+  with_items: "{{ master_id }}"
+
+- name: Delete the persistent volume of the master
+  os_volume:
+    auth: "{{ project_auth_settings }}"
+    display_name: "apollo_persistent_master{{ item }}"
+    state: absent
+  with_items: "{{ master_id }}"
+
+- name: Remove the security group
+  os_security_group:
+    auth: "{{ project_auth_settings }}"
+    name: apollo_sec_group
+    state: absent
+
+- name: Delete the private key from local
+  local_action:
+    module: file
+    path: "{{ lookup('env','HOME') }}/apollo_key.pem"
+    state: absent
+
+- name: Remove SSH keypair
+  os_keypair:
+    auth: "{{ project_auth_settings }}"
+    name: apollo_key
+    state: absent
+
+- name: Delete the subnet router
+  os_router:
+    auth: "{{ project_auth_settings }}"
+    name: apollo_router
+    state: absent
+
+- name: Delete the subnet
+  os_subnet:
+    auth: "{{ project_auth_settings }}"
+    name: apollo_subnet
+    state: absent
+
+- name: Delete the network
+  os_network:
+    auth: "{{ project_auth_settings }}"
+    name: apollo_net
+    state: absent
+
+- name: Remove the project from Openstack
+  os_project:
+    auth: "{{ admin_auth_settings }}"
+    name: "{{ project_auth_settings.project_name }}"
+    state: absent
+
+- name: Authenticate to the server, as admin
+  os_auth:
+    auth: "{{ admin_auth_settings }}"
+
+- name: Remove the project manager
+  os_user:
+    auth: "{{ admin_auth_settings }}"
+    name: "{{ project_auth_settings.username }}"
+    state: absent
+  no_log: true
+
+- name: Remove the eval user
+  os_user:
+    auth: "{{ admin_auth_settings }}"
+    name: "{{ eval_auth_settings.username }}"
+    state: absent
+  no_log: true
