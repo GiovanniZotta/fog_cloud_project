@@ -1,0 +1,14 @@
+---
+- hosts: openstack
+  roles:
+    - openstack-retrieve-instances
+
+- hosts: master
+  roles:
+    - common
+    - install-worker-node
+
+- hosts: workers
+  roles:
+    - common
+    - install-worker-node

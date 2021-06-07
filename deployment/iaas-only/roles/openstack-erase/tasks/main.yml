@@ -31,7 +31,7 @@
 
 - name: Get all worker ids
   set_fact:
-    workers_ids: "{{ ids | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
+    workers_ids: "{{ workers_ids | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
   with_items: "{{ worker_names }}"
   when: worker_names is defined
 
@@ -77,7 +77,7 @@
 
 - name: Get master id
   set_fact:
-    master_id: "{{ ids | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
+    master_id: "{{ master_id | default([]) + [ item | regex_replace('^.*(\\d)$', '\\1') ] }}"
   with_items: "{{ master_name }}"
   when: master_name is defined
 

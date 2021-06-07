@@ -82,7 +82,6 @@
     value: 1
     state: present
   ignore_errors: yes
-
-- name: Reboot the machine
-  become: yes
-  reboot:
+# - name: Reboot the machine
+#   become: yes
+#   reboot:

@@ -1,9 +1,0 @@
----
-
-- hosts: openstack
-  roles:
-    - openstack-retrieve-instances
-
-- hosts: instances
-  roles:
-    - install-worker-ip

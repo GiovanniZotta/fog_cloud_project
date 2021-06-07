@@ -43,7 +43,7 @@
     auth: "{{ project_auth_settings }}"
     state: present
     name: apollo_master{{ id }}
-    flavor: ds2G # (2GB RAM 10GB HDD)
+    flavor: ds4G # (4VCPUS 4GB RAM 20GB HDD)
     image: ubuntu
     network: apollo_net
     key_name: ansible_key

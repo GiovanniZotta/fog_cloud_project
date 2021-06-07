@@ -1,4 +1,0 @@
---- 
-
-- debug:
-    msg: "Welcome {{ ansible_user }}, you are in the {{ ansible_hostname }} machine!"
