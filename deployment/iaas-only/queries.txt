@@ -1,0 +1,51 @@
+curl 'http://10.108.104.153/graphql' \
+-X POST \
+-H 'content-type: application/json' \
+--data '{
+    "query": "{ products { id, name } }"
+}' | jq .
+
+curl 'http://10.108.104.153/graphql' \
+  -X POST \
+  -H 'content-type: application/json' \
+  --data '{
+    "query": "{ products { id, name, createdAt, reviews { id, title, body, createdAt}}}"
+  }' | jq .
+
+curl 'http://10.108.104.153/graphql' -X POST -H 'content-type: application/json' --data '{"query": "{ products { id name description image weight price createdAt updatedAt quantity shippingEstimate(quantity: 5) reviews { id title body createdAt updatedAt product { id } } } }"}' | jq .
+
+curl 'http://10.244.1.7:80/graphql' -X POST -H 'content-type: application/json' --data '{"query": "{ products { id name }}"}' | jq .
+
+
+query {
+    products { id name description image weight price createdAt updatedAt quantity shippingEstimate(quantity: 5) reviews { id title body createdAt updatedAt product { id } } }
+}
+
+query {
+    products { id name }
+}
+
+query {
+    products {
+        id
+        name
+        description
+        image
+        weight
+        price
+        createdAt
+        updatedAt
+        quantity
+        shippingEstimate(quantity: 5)
+        reviews {
+            id
+            title
+            body
+            createdAt
+            updatedAt
+            product {
+                id
+            }
+        }
+    }
+}
