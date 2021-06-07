@@ -107,7 +107,7 @@ metadata:
   name: gateway-deployment
   namespace: graphmarket
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: gateway
@@ -150,7 +150,7 @@ metadata:
   name: service-products-deployment
   namespace: graphmarket
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: service-products
@@ -188,7 +188,7 @@ metadata:
   name: service-reviews-deployment
   namespace: graphmarket
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: service-reviews
@@ -226,7 +226,7 @@ metadata:
   name: service-inventories-deployment
   namespace: graphmarket
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: service-inventories
