@@ -74,6 +74,8 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
+- role: worker
+- role: worker
 EOF
 
 cat <<EOF | kubectl apply -f -
