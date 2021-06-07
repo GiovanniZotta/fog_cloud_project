@@ -25,7 +25,7 @@ Now we are ready to setup our cluster!
 
 ## Kubernetes nodes configuration
 On the Master node and on all worker nodes, we need some basic packages. Therefore, we use the roles **common** and **install-worker-nodes** to install all the necessary tools on all our nodes.  
-After doing that, on the Master node we play the role **master-init**, which initializes the Kubernetes cluster. We also apply the flannel network plugin. Then, we retrieve the join command which will be run on every worker node, and execute it on every instance after ahving installed the needed packages.  
+After doing that, on the Master node we play the role **master-init**, which initializes the Kubernetes cluster. We also apply the flannel network plugin. Then, we retrieve the join command which will be run on every worker node, and execute it on every instance after having installed the needed packages.  
 Finally, on the worker nodes we need to advertise to the Master node with the floating IP of the corresponding instance in order to be able to receive communications, so we use the role **install-worker-ip** on every node.
 
 Everything is done with a single Ansible playbook.
