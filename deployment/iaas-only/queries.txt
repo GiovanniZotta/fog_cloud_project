@@ -49,3 +49,14 @@ query {
         }
     }
 }
+
+Host iaas
+    User giovanni.zotta
+    Hostname iaas-07.fcc21.fogx.me
+    IdentityFile /home/ubuntu/.ssh/fog/giovanni.zotta@studenti.unitn.it.key
+
+Host ubuntu1
+    User ubuntu
+    Hostname 172.24.4.134
+    ProxyCommand ssh -W %h:%p iaas
+    IdentityFile /home/ubuntu/.ssh/fog/giovanni.zotta@studenti.unitn.it.key
